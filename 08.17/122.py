@@ -13,5 +13,6 @@ for word in text.split():
                 break
         print(new_word + 'ay', end=' ')
 
+# stdout:
 # Введите несколько слов через пробел: ioann zhanna yaroslav kirill igor archi
 # ioannway annazhay aroslavyay irillkay igorway archiway 

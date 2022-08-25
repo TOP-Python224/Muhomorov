@@ -1,6 +1,8 @@
 from string import capwords as caps
+
+
 text = 'Ioann Zhanna! yaroslav, Kirill? Igor. archi Anton? Stepan sergey,'
-#text = input('Введите несколько слов через пробел: ')
+# text = input('Введите несколько слов через пробел: ')
 g_char = ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
 puncts = (',', '.', '?', '!')
 
@@ -28,3 +30,6 @@ for word in text.split(' '):
             new_word = new_word_part[0] + new_word_part[2] + 'ay' + new_word_part[1]
         
         print(new_word, end=' ')
+
+# stdout:
+# Ioannway Annazhay! aroslavyay, Irillkay? Igorway. archiway Antonway? Epanst ergeysay,

@@ -14,6 +14,7 @@ if clear_text == rev_text:
 else:
     print('Предложение НЕ является словесным палиндромом!')
 
+# stdout:
 # Введите предложение: Is1 it crazy: how saying sentences backwards creates backwards sentences, saying how crazy it is!
 # Предложение НЕ является словесным палиндромом!
 
