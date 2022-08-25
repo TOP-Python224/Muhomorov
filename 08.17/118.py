@@ -5,11 +5,13 @@ clear_text = []
 
 for word in text.split():
     clear_text += [word.lower().strip(puncts)]
-    
+
 rev_text = clear_text.copy()
 rev_text.reverse()
 
-if clear_text == rev_text: 
+# ИСПОЛЬЗОВАТЬ: как насчёт более короткого и экономичного варианта?
+# if clear_text == clear_text[::-1]:
+if clear_text == rev_text:
     print('Предложение является словесным палиндромом!')
 else:
     print('Предложение НЕ является словесным палиндромом!')
@@ -20,3 +22,6 @@ else:
 
 # Введите предложение: Is it crazy: how saying sentences backwards creates backwards sentences, saying how crazy it is!  
 # Предложение является словесным палиндромом!
+
+
+# ИТОГ: верно — 2.1/2.4
