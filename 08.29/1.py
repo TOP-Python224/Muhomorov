@@ -48,10 +48,11 @@ precision = om_to_precision(om)
 for eia in nominals:
     if eia in ('E6', 'E12', 'E24'):
         param = precision[0]
-        diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
+        # diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
+        # DRY
     else:
         param = precision[1]
-        diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
+    diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
 
 for eia in diffs:
     min_diff = min(diffs[eia])
