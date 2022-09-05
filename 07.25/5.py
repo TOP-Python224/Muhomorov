@@ -19,10 +19,6 @@ for key, value in word_cnt.items():
 
 print(sorted(res)[0])
 
-# if __name__ == '__main__':
-
-
-
 # Введите текст: one, two, two, hello-bye, bad, good, Python, Python, Python
 # bad
 
