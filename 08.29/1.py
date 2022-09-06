@@ -1,3 +1,4 @@
+from math import log10
 from typing import Callable, Iterable
 
 
@@ -20,27 +21,33 @@ nominals = {
 }
 
 
-result = {} 
-diffs = {}
+# ИСПОЛЬЗОВАТЬ: кажется, функция возвращает всё-таки не float, а tuple из двух float
+def om_to_precision(input_om: str) -> tuple[float, float]:
+    # ИСПОЛЬЗОВАТЬ: в абсолютном большинстве случаев мы и так знаем, что читаем документацию к функции, так что не стоит напрасно тратить символы docstring, а стоит сразу начинать описание с глагола
+    #  есть разные стили оформления строки документации, но все они сходятся на том, что первая строка документации должна быть насколько возможно лаконичной и должна отвечать на вопрос "что делает?"
+    #  описания параметров даются ниже: либо обычным текстом, либо специальным синтаксисом
+    #  предложения не разбиваются посередине символом конца строки — используйте перенос строк (soft wrap) в редакторе
+    """Масштабирует значение необходимого сопротивления для соответствия порядкам значений в разных рядах номиналов сопротивлений.
 
-
-def om_to_precision(input_om: str) -> float:
-    """Функция принимает на вход необходимое сопротивление в омах и выдает на выходе 2-значное 
-    и 3-значное числа, необходимые для выборки ближайшего номинала из всех рядов."""
-    if '.' in input_om:
-        input_om_float = float(input_om)
-        if input_om_float < 1:
-            low = input_om_float * 100
-        elif input_om_float < 10:
-            low = input_om_float * 10
-        else:
-            low = float(input_om) * 10**(2 - (len((input_om.partition('.')[0]))))
+    :param input_om: необходимое сопротивление в Омах
+    :returns: кортеж из двузначного и трёхзначного чисел
+    """
+    # КОММЕНТАРИЙ: очень порадовало, что стараетесь учесть и множители тоже
+    # ИСПОЛЬЗОВАТЬ: не стоит, однако, усложнять — эту часть можно написать заметно проще
+    input_om = float(input_om)
+    if input_om < 1 or 10**8 < input_om:
+        raise ValueError('резисторы с сопротивлением менее 1 Ом и более 100 МОм не учитываются данным стандартом')
     else:
-        low = int(input_om) * 10**(2 - len(input_om))
-    return low, low * 10
+        # ИСПОЛЬЗОВАТЬ: как же хорошо, что есть логарифмы
+        input_om_exp = int(log10(input_om))
+        # ИСПОЛЬЗОВАТЬ: для большей точности приведём к нужным порядкам по отдельности
+        low = input_om * 10**(1 - input_om_exp)
+        high = input_om * 10**(2 - input_om_exp)
+    return low, high
 
 
 def mymap(function: Callable, iterator: Iterable) -> list:
+    # ИСПРАВИТЬ: строку документации — особое внимание обратить на то, что функция должна принять ровно два аргумента, это важно
     """Функция возвращает список, заполненный данными рассчитанными вложенной функцией. """
     ret = []
     for elem in iterator:
@@ -48,27 +55,30 @@ def mymap(function: Callable, iterator: Iterable) -> list:
     return ret
 
 
-def diffs_nom_prec(nom: int, prec: int | float) -> int | float:
+# ИСПОЛЬЗОВАТЬ: если мы ожидаем int или float, то достаточно в аннотации указать float — поскольку числовые объекты могут использоваться смешанным образом
+def diffs_nom_prec(nom: int, prec: float) -> float:
+    # ИСПРАВИТЬ: строку документации
     """Функция принимает на вход номинал и значение, рассчитанное из введенных пользователем данных, и вычисляет их разность."""
     return abs(nom - prec)
+
 
 om = input('Введите необходимое сопротивление: ')
 precision = om_to_precision(om)
 
-
+diffs = {}
 for eia in nominals:
     if eia in ('E6', 'E12', 'E24'):
         param = precision[0]
-        # diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
-        # DRY
     else:
         param = precision[1]
     diffs[eia] = mymap(diffs_nom_prec, nominals[eia])
 
+result = {}
 for eia in diffs:
     min_diff = min(diffs[eia])
     curr_index = diffs[eia].index(min_diff)
     if diffs[eia].count(min_diff) == 1:
+        # ДОБАВИТЬ: вот чего здесь не хватает, так это умножения номинала на соответствующий множитель, чтобы порядок номинала совпал с порядком необходимого сопротивления
         result[eia] = nominals[eia][curr_index]
     else:
         result[eia] = [nominals[eia][curr_index]]
@@ -92,6 +102,4 @@ print(result)
 # {'E6': 10, 'E12': 12, 'E24': 12, 'E48': 121, 'E96': 124}
 
 
-
-
-
+# ИТОГ: задача не тривиальная, но вы справились почти идеально — 10/12
