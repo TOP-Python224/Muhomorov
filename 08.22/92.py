@@ -1,7 +1,6 @@
-months = {  1: 31, 2: 28, 3: 31,
-            4: 30, 5: 31, 6: 30,
-            7: 31, 8: 31, 9: 30,
-            10: 31, 11: 30, 12: 31 } 
+months = {
+    1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+}
 warranty = 180
 
 def yearIsLeap(year: int) -> bool:
@@ -12,7 +11,8 @@ def yearIsLeap(year: int) -> bool:
         return True
     else:
         return False
-    
+
+
 def realDate(year: int, days: int) -> int:
     """Функция принимает на вход год и порядковый номер дня, и возвращает дату."""
     isleap = yearIsLeap(year)
@@ -21,7 +21,8 @@ def realDate(year: int, days: int) -> int:
             return f"{days:02}-{m:02}-{year}"
         else:
             days -= months[m]
-   
+
+
 year = int(input('Введите год покупки телевизора: '))
 days = int(input('Введите порядковый номер дня покупки телевизора: '))
 
@@ -38,6 +39,8 @@ if (isleap and 0 < days <= 366) or (not isleap and 0 < days <= 365):
 else:
     print("Введено неправильное количество дней!")
 
+
+# stdout:
 # Введите год покупки телевизора: 2019
 # Введите порядковый номер дня покупки телевизора: 300
 # Дата окончания гарантии на телевизор - 24-04-2020

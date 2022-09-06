@@ -2,8 +2,7 @@ decimal = '0123456789'
 sign = '+-'
 
 def isDigital(text: str) -> bool:
-    """Функция принимает на вход строку, удаляет пробелы и определяет, можно ли 
-       это строку считать целым числом."""
+    """Функция принимает на вход строку, удаляет пробелы и определяет, можно ли это строку считать целым числом."""
     clear_text = ''
         
     for char in text:
@@ -29,9 +28,12 @@ def isDigital(text: str) -> bool:
 
     return cnt == len(clear_text)
 
+
 if __name__ == '__main__':
     print(isDigital(input('Введите строку: ')))
 
+
+# stdout:
 # Введите строку: 12345
 # True
 

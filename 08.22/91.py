@@ -1,12 +1,11 @@
-months = {  1: 31, 2: 28, 3: 31,
-            4: 30, 5: 31, 6: 30,
-            7: 31, 8: 31, 9: 30,
-            10: 31, 11: 30, 12: 31 } 
+months = {
+    1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+}
 
 def ordinalDate(day: int, month: int, year: int) -> int:
     """Функция принимает на вход день, месяц, год и возвращает порядковый номер дня."""
-
-    if not year % 4 and year % 100 or not year % 400: months[2] = 29
+    if not year % 4 and year % 100 or not year % 400:
+        months[2] = 29
 
     if 0 < day <= months[month]:
         days = day
@@ -20,12 +19,15 @@ def ordinalDate(day: int, month: int, year: int) -> int:
     else:
         return f"Введено неправильное количество дней ({day}) в месяце ({month})!"
 
+
 if __name__ == '__main__':
     day = int(input('Введите день: '))
     month = int(input('Введите месяц: '))
     year = int(input('Введите год: '))
     print(ordinalDate(day, month, year))
 
+
+# stdout:
 # Введите день: 0
 # Введите месяц: 1
 # Введите год: 2020
