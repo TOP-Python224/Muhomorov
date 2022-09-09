@@ -1,12 +1,14 @@
 import random
 
-def remove_min_max(lst: list, # Параметры позиционно-ключевые, и так понятно для чего они, поэтому их можно использовать и так и так.
-                   n: int,
-                   *,
-                   update_lst: bool) -> None | list | str: # Параметр строго ключевой, т.к. его название вместе со значением улучшают читаемость кода.
+def remove_min_max(
+        # Параметры позиционно-ключевые, и так понятно для чего они, поэтому их можно использовать и так и так
+        lst: list,
+        n: int,
+        *,
+        # Параметр строго ключевой, т.к. его название вместе со значением улучшают читаемость кода.
+        update_lst: bool) -> None | list | str:
     """Функция удаляет n минимальных и n максимальных значений из списка чисел."""
-    
-    if len(lst) < n * 2:
+    if len(lst) < 2*n:
         return "'n' too big!"
     
     if update_lst:
@@ -21,10 +23,12 @@ def remove_min_max(lst: list, # Параметры позиционно-ключ
             new_lst.remove(max(new_lst))
         return new_lst
 
+
 print(remove_min_max(random.sample(range(-100, 101), 10), 3, update_lst=True))
 print(remove_min_max(random.sample(range(-100, 101), 15), 4, update_lst=False))
 print(remove_min_max(random.sample(range(-100, 101), 10), n=6, update_lst=False))
 print(remove_min_max(random.sample(range(-100, 101), 15), 4, False))
+
 
 # stdout:
 # None

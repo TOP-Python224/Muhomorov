@@ -14,14 +14,10 @@ for i in range(randint(5, 10)):
     tmp_seq.append(uniform(0.0, 100.0))
 seq_tuple = tuple(tmp_seq)
 
+
 def average(seq: int | float, *args) -> float:
-    """Функция принимает на вход один аргумент: список, кортеж , строку или 
-    произвольное количество объектов, содержащих только целые или вещественные числа.
-    Функция возвращает словарь, содержащий отсортированные по возрастанию
-    среднее арифметическое, геометрическое, квадратичное и гармоническое,
-    рассчитанное для элементов аргумента.
-    """
-    arithmetic = quadratic = garmonic = 0
+    """Функция принимает на вход один аргумент: список, кортеж , строку или произвольное количество объектов, содержащих только целые или вещественные числа. Функция возвращает словарь, содержащий отсортированные по возрастанию среднее арифметическое, геометрическое, квадратичное и гармоническое, рассчитанное для элементов аргумента."""
+    arithmetic = quadratic = harmonic = 0
     geometric = 1
 
     if len(args) != 0:
@@ -48,16 +44,17 @@ def average(seq: int | float, *args) -> float:
             arithmetic += i
             geometric *= i
             quadratic += i*i
-            garmonic += 1/i
+            harmonic += 1/i
 
     result['arithmetic'] = arithmetic/seqlen
     result['geometric'] = pow(geometric, 1/seqlen)
     result['quadratic'] = pow(quadratic/seqlen, 1/2)
-    result['garmonic'] = seqlen/garmonic
+    result['harmonic'] = seqlen/harmonic
 
     sorted_result = sorted(result.items(), key=lambda i: i[1])
     sorted_result = dict(sorted_result)
     return sorted_result
+
 
 print(average((1.0, 2, 'f', 4, 5)))
 print(average({}))
@@ -66,7 +63,8 @@ print(average(seq_lst))
 print(average(seq_tuple))
 print(average(seq_str))
 print(average([1, 2, 3, 4.23]))
-print(average('0.1 2 0.12 1')) # Если использовать строку из задания ('0 2 0.12 1'), то при расчете средней гармонической возникает деление на 0, т.к. в знаменателе формулы 1/а.
+# Если использовать строку из задания ('0 2 0.12 1'), то при расчете средней гармонической возникает деление на 0, т.к. в знаменателе формулы 1/а.
+print(average('0.1 2 0.12 1'))
 print(average(-1, 1.5, -2, 2.5))
 
 
@@ -77,4 +75,3 @@ print(average(-1, 1.5, -2, 2.5))
 # {'garmonic': 22.0122751381488, 'geometric': 29.048864608273163, 'arithmetic': 38.700776850103814, 'quadratic': 48.441235417302124}
 # {'garmonic': 23.676973286212267, 'geometric': 30.000913493344964, 'arithmetic': 35.21254849273601, 'quadratic': 38.83815111069476}
 # {'garmonic': 37.57167199479728, 'geometric': 42.407965023141934, 'arithmetic': 47.73395996531975, 'quadratic': 52.951380157962774}
-
