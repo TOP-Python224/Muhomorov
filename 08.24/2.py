@@ -1,15 +1,20 @@
 def parse_sound_file(
+        # КОММЕНТАРИЙ: полностью согласен
         # Параметр строго позиционный, т.к. путь к файлу выглядит самодостаточно, дополнять его именем параметра избыточно. Также нахождение его на 1-м месте среди параметров функции делает код более читаемым.
         file_path: str,
         /,
         *,
+        # КОММЕНТАРИЙ: полностью согласен
         # Остальные параметры строго ключевые, т.к. все они цифровые и похожи между собой, в этом случае использование имени параметра делает код более читаемым.
+        # ИСПРАВИТЬ: согласно условию, в эти параметры может быть передан как объект int, так и объект str — последнее полезно, например, когда вы читаете эти параметры из атрибутов файла, либо из базы данных, где они могут храниться как текст, и тому подобные случаи
         format: int,
         channels: str,
         sample_freq: int,
         bit_depth: int) -> str:
-    """Функция проверяет корректность переданных аргументов и выдает результат по каждой проверке"""
-    sample_freq_dir = (8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000)
+    """Проверяет корректность переданных аргументов и выдает результат по каждой проверке."""
+    sample_freq_dir = (
+        8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000
+    )
     bit_depth_dir = (8, 16, 24, 32)
     parse_result = ''
     
@@ -37,10 +42,18 @@ def parse_sound_file(
         parse_result += f"{bit_depth = } is Ok!\n"
     else:
         parse_result += f"{bit_depth = } is incorrect!\n"
+
     return parse_result
 
 
-print(parse_sound_file("/home/ioann/file.wav", format=77, channels=5, sample_freq=32000, bit_depth=24))
+print(parse_sound_file(
+    "/home/ioann/file.wav",
+    format=77,
+    channels=5,
+    sample_freq=32000,
+    bit_depth=24
+))
+
 print(parse_sound_file("/home/ioann/file.ogg", format=77, channels=5, sample_freq=32001, bit_depth=25))
 print(parse_sound_file("/home/ioann/file.wav", 77, 5, sample_freq=8000, bit_depth=24))
 
@@ -62,3 +75,6 @@ print(parse_sound_file("/home/ioann/file.wav", 77, 5, sample_freq=8000, bit_dept
 #   File "d:\Step\python\ДЗ\08.24\2.py", line 42, in <module>
 #     print(parse_sound_file("/home/ioann/file.wav", 77, 5, sample_freq=8000, bit_depth=24))
 # TypeError: parse_sound_file() takes 1 positional argument but 3 positional arguments (and 2 keyword-only arguments) were given
+
+
+# ИТОГ: отлично! — 5/5
