@@ -7,10 +7,10 @@ def parse_sound_file(
         # КОММЕНТАРИЙ: полностью согласен
         # Остальные параметры строго ключевые, т.к. все они цифровые и похожи между собой, в этом случае использование имени параметра делает код более читаемым.
         # ИСПРАВИТЬ: согласно условию, в эти параметры может быть передан как объект int, так и объект str — последнее полезно, например, когда вы читаете эти параметры из атрибутов файла, либо из базы данных, где они могут храниться как текст, и тому подобные случаи
-        format: int,
-        channels: str,
-        sample_freq: int,
-        bit_depth: int) -> str:
+        format: int | str,
+        channels: int | str,
+        sample_freq: int | str,
+        bit_depth: int | str) -> str:
     """Проверяет корректность переданных аргументов и выдает результат по каждой проверке."""
     sample_freq_dir = (
         8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000
@@ -23,7 +23,7 @@ def parse_sound_file(
     else:
         parse_result += f"{file_path = } is incorrect!\n"
 
-    if 0 <= format <= 999:
+    if 0 <= int(format) <= 999:
         parse_result += f"{format = } is Ok!\n"
     else:
         parse_result += f"{format = } is incorrect!\n"
@@ -33,12 +33,12 @@ def parse_sound_file(
     else:
         parse_result += f"{channels = } is incorrect!\n"
 
-    if sample_freq in sample_freq_dir:
+    if int(sample_freq) in sample_freq_dir:
         parse_result += f"{sample_freq = } is Ok!\n"
     else:
         parse_result += f"{sample_freq = } is incorrect!\n"
    
-    if bit_depth in bit_depth_dir:
+    if (bit_depth) in bit_depth_dir:
         parse_result += f"{bit_depth = } is Ok!\n"
     else:
         parse_result += f"{bit_depth = } is incorrect!\n"
@@ -48,14 +48,14 @@ def parse_sound_file(
 
 print(parse_sound_file(
     "/home/ioann/file.wav",
-    format=77,
+    format='77',
     channels=5,
-    sample_freq=32000,
+    sample_freq='32000',
     bit_depth=24
 ))
 
 print(parse_sound_file("/home/ioann/file.ogg", format=77, channels=5, sample_freq=32001, bit_depth=25))
-print(parse_sound_file("/home/ioann/file.wav", 77, 5, sample_freq=8000, bit_depth=24))
+print(parse_sound_file("/home/ioann/file.wav", 77 , 5, sample_freq=8000, bit_depth=24))
 
 
 # stdout

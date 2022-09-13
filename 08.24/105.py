@@ -10,16 +10,15 @@ def from_decimal(number: int,
     # ИСПРАВИТЬ: лучше в такой ситуации перезаписывать переменную number, которую вы всё равно нигде далее не используете — так можно было бы написать более компактный и легко читаемый цикл
     quotient = number // out_system
     remainder = number % out_system
-    result = str(remainder)
+    # Переработал эту чать, т.к. некоторые десятичные числа некорректно преобразовывались в шестнадцатиричные.
+    # Например: 1111110111101 -> 102B352CF713, хотя правильно 102B352CF7D.
+    number = dig_to_char.get(remainder, remainder)
     while quotient > 0:
         # ИСПОЛЬЗОВАТЬ: а ещё есть встроенная функция divmod()
         quotient, remainder = quotient // out_system, quotient % out_system
-        if remainder > 9:
-            # ИСПРАВИТЬ: избыточное преобразование в строку, значения в словаре и так уже строки
-            result = str(dig_to_char[remainder]) + result
-        else:
-            result = str(remainder) + result
-    return result
+        # Заодно и здесь переработал для единообразия.
+        number = dig_to_char.get(remainder, str(remainder)) + str(number)
+    return number
 
 
 def to_decimal(number: str,
@@ -31,17 +30,25 @@ def to_decimal(number: str,
     # ИСПРАВИТЬ: для переменной индекса мы используем имя i
     # ИСПОЛЬЗОВАТЬ: встроенную функцию enumerate() вместе с функцией range() — выполните её отдельно, посмотрите, как она работает
     # for i, j in enumerate(range(number_len-1, -1, -1)):
-    for b in range(number_len):
+    # for i, j in enumerate(range(number_len-1, -1, -1)):
+    for i in range(number_len):
         # ДОБАВИТЬ: проверку, что цифра соответствует заявленной исходной системе счисления, и выброс исключения ValueError, если это не так
-
         # ИСПРАВИТЬ: разве нас устроит любая буква? (см. тест ниже)
-        if number[b].isalpha():
-            result += char_to_dig[number[b].title()] * in_system**(number_len - 1)
+        if number[i].title() in char_to_dig:
+            if 0 <= char_to_dig[number[i].title()] < in_system:
+                result += char_to_dig[number[i].title()] * in_system**(number_len - 1)
+            else:
+                raise ValueError('Символ не соответствует системе счисления!')
+        elif number[i].isdecimal():
+            if 0 <=  int(number[i]) < in_system:
+                result += int(number[i]) * in_system**(number_len - 1)
+            else:
+                raise ValueError('Символ не соответствует системе счисления!')
         else:
-            result += int(number[b]) * in_system**(number_len - 1)
+            raise ValueError('Введен недопустимый символ')
         number_len -= 1
+        # number_len = j
     return result
-
 
 def from_any_to_any(number: str,
                     in_system_main: int,
@@ -64,9 +71,8 @@ if 2 <= in_system_main <= 16 and 2 <= out_system_main <= 16:
     print(from_any_to_any(number, in_system_main, out_system_main))
 else:
     # ИСПРАВИТЬ: лучше выбросить исключение ValueError
-    print('Введено некорректное значение исходной или целевой системы счисления!')
-
-
+    raise ValueError('Введено некорректное значение исходной или целевой системы счисления!')
+    
 # stdout:
 # Введите число в исходной системе счисления: 1a9z56Я
 # Введите исходную систему счисления (2-16): 11
@@ -74,6 +80,19 @@ else:
 # Traceback (most recent call last):
 #   ...
 # KeyError: 'Z'
+
+# stdout2:
+# Введите число в исходной системе счисления: 1a9z56Я
+# Введите исходную систему счисления (2-16): 11
+# Введите целевую систему счисления (2-16): 2
+# Traceback (most recent call last):
+#   File "d:\Step\python\rep\Muhomorov\08.24\105.py", line 72, in <module>
+#     print(from_any_to_any(number, in_system_main, out_system_main))
+#   File "d:\Step\python\rep\Muhomorov\08.24\105.py", line 60, in from_any_to_any
+#     to_decimal(
+#   File "d:\Step\python\rep\Muhomorov\08.24\105.py", line 49, in to_decimal
+#     raise ValueError('Введен недопустимый символ')
+# ValueError: Введен недопустимый символ
 
 
 # ИТОГ: весьма неплохо — 5/8
