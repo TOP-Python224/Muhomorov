@@ -4,11 +4,13 @@ from random import randrange
 
 CardHand = tuple[int, int, int, int, int]
 
+# ИСПРАВИТЬ: функция декоратора возвращает вызываемый объект, не строку
 def logger(func: Callable) -> str:
     """Выводит строку для журналирования выполнения функции, содержащую дату и время запуска функции, название функции, переданные аргументы и возвращаемое значение."""
     def _wrapper(*args, **kwargs):
         time_stamp = datetime.now()
         result = func(*args, **kwargs)
+        # ИСПРАВИТЬ: служебная функция декоратора должна возвращать то же самое, что и декорируемая функция
         return f"{time_stamp}:\t{func.__name__}:\t{args}:\t{kwargs}:\t{result}"
     return _wrapper           
 
@@ -19,6 +21,7 @@ def checkhand(hand: CardHand, test=0) -> str:
     """Возвращает название самой старшей покерной комбинации в кортеже из пяти карт.
 
     Используются комбинации техасского холдема."""
+    # ОТВЕТИТЬ: а что ещё можно сделать, чтобы получить уникальные карты?
     unique = ()
     for card in hand:
         if card not in unique:
@@ -28,6 +31,7 @@ def checkhand(hand: CardHand, test=0) -> str:
     if lu == 5:
         q = sorted(unique)
         if q == list(range(q[0], q[0]+5)):
+            # КОММЕНТАРИЙ: да, это я пропустил, когда переписывал код в функцию — спасибо
             # edit by io25nsk
             # comb = 'стрит'
             return 'стрит'
@@ -38,19 +42,16 @@ def checkhand(hand: CardHand, test=0) -> str:
         return 'пара'
     
     if lu == 3:
-        q = ()
-        for card in unique:
-            q += (hand.count(card),)
+        # ИСПОЛЬЗОВАТЬ: учитывая, что мы используем все эти объекты только один раз:
+        q = (hand.count(card) for card in unique)
         if max(q) == 2:
             return 'две пары'
         else:
             return 'сет'
     
     if lu == 2:
-        # add by io25nsk
-        q = ()
-        for card in unique:
-            q += (hand.count(card),)
+        # ИСПОЛЬЗОВАТЬ: учитывая, что мы используем все эти объекты только один раз:
+        q = (hand.count(card) for card in unique)
         if max(q) == 3:
             return 'фулл-хаус'
         else:
@@ -60,10 +61,14 @@ def checkhand(hand: CardHand, test=0) -> str:
         return 'Шулер!'
 
 
-result = '\t\t\t\t'
-while result.split('\t')[4] != 'сет':
+# ИСПОЛЬЗОВАТЬ: может, лучше взять последний элемент, а не пятый?
+result = ''
+while result.split('\t')[-1] != 'сет':
     hand = ()
     for _ in range(5):
         hand += (randrange(1, 14),)
     result = checkhand(hand)
     print(result)
+
+
+# ИТОГ: очень хорошо — 5/7
