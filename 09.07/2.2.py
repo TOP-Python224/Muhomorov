@@ -5,17 +5,19 @@ from random import randrange
 CardHand = tuple[int, int, int, int, int]
 
 def logger(func: Callable) -> str:
-    """Выводит строку для журналирования выполения функции, содержащую дату и время запуска функции, название функции, переданные аргументы и возвращаемое значение."""
+    """Выводит строку для журналирования выполнения функции, содержащую дату и время запуска функции, название функции, переданные аргументы и возвращаемое значение."""
     def _wrapper(*args, **kwargs):
         time_stamp = datetime.now()
         result = func(*args, **kwargs)
         return f"{time_stamp}:\t{func.__name__}:\t{args}:\t{kwargs}:\t{result}"
     return _wrapper           
 
+
 @logger
 # Подправил функцию checkhand: каре и фулл-хаус выдавали исключение: UnboundLocalError: local variable 'q' referenced before assignment, стрит возвращал None.
 def checkhand(hand: CardHand, test=0) -> str:
     """Возвращает название самой старшей покерной комбинации в кортеже из пяти карт.
+
     Используются комбинации техасского холдема."""
     unique = ()
     for card in hand:
@@ -57,6 +59,7 @@ def checkhand(hand: CardHand, test=0) -> str:
     if lu == 1:
         return 'Шулер!'
 
+
 result = '\t\t\t\t'
 while result.split('\t')[4] != 'сет':
     hand = ()
@@ -64,8 +67,3 @@ while result.split('\t')[4] != 'сет':
         hand += (randrange(1, 14),)
     result = checkhand(hand)
     print(result)
-
-
-
-    
-   

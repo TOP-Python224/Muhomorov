@@ -22,10 +22,12 @@ def test_func(repeat: int = 10,
         print(_, end=' ')
         sleep(timeout)
 
+
 print(test_func(repeat=15, timeout=0.1))
 print(test_func(10, 0.5))
 
-#stdout:
+
+# stdout:
 # 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 Время выполнения функции 1.6914296 секунд.
 
 # 0 1 2 3 4 5 6 7 8 9 Время выполнения функции 5.0507752 секунд.
