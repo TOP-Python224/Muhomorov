@@ -5,27 +5,29 @@ from random import randrange
 CardHand = tuple[int, int, int, int, int]
 
 # ИСПРАВИТЬ: функция декоратора возвращает вызываемый объект, не строку
-def logger(func: Callable) -> str:
+def logger(func: Callable) -> Callable:
     """Выводит строку для журналирования выполнения функции, содержащую дату и время запуска функции, название функции, переданные аргументы и возвращаемое значение."""
     def _wrapper(*args, **kwargs):
         time_stamp = datetime.now()
         result = func(*args, **kwargs)
         # ИСПРАВИТЬ: служебная функция декоратора должна возвращать то же самое, что и декорируемая функция
-        return f"{time_stamp}:\t{func.__name__}:\t{args}:\t{kwargs}:\t{result}"
+        print(f"{time_stamp}:\t{func.__name__}:\t{args}:\t{kwargs}:\t{result}")
+        return result
     return _wrapper           
 
 
 @logger
 # Подправил функцию checkhand: каре и фулл-хаус выдавали исключение: UnboundLocalError: local variable 'q' referenced before assignment, стрит возвращал None.
-def checkhand(hand: CardHand, test=0) -> str:
+def checkhand(hand: CardHand) -> str:
     """Возвращает название самой старшей покерной комбинации в кортеже из пяти карт.
 
     Используются комбинации техасского холдема."""
     # ОТВЕТИТЬ: а что ещё можно сделать, чтобы получить уникальные карты?
-    unique = ()
-    for card in hand:
-        if card not in unique:
-            unique += (card,)
+    unique = set(hand)
+    # unique = ()
+    # for card in hand:
+    #     if card not in unique:
+    #         unique += (card,)
     lu = len(unique)
    
     if lu == 5:
@@ -68,7 +70,7 @@ while result.split('\t')[-1] != 'сет':
     for _ in range(5):
         hand += (randrange(1, 14),)
     result = checkhand(hand)
-    print(result)
+    # print(result)
 
 
 # ИТОГ: очень хорошо — 5/7

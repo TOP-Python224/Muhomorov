@@ -2,7 +2,7 @@ from typing import Callable
 from time import perf_counter_ns, sleep
 
 # ИСПРАВИТЬ: функция декоратора возвращает вызываемый объект, не строку — вспомните, как выполняется декоратор
-def func_timer(func: Callable) -> str:
+def func_timer(func: Callable) -> Callable:
     # ИСПОЛЬЗОВАТЬ: если хотите полную документацию, то пишите тогда в стиле Sphinx, который использует синтаксис reStructuredText — это официальный стандарт для Python
     """Выводит время выполнения переданной функции.
 
@@ -11,30 +11,31 @@ def func_timer(func: Callable) -> str:
     def _wrapper(*args, **kwargs):
         start_time = perf_counter_ns()
         # ИСПРАВИТЬ: декоратор может применяться к разным функциям, включая те, которые возвращают значимые объекты — следовательно мы должны озаботиться, чтобы та функция, которой мы подменяем исходную, вернула то же значение, что и исходная
-        func(*args, **kwargs)
+        result = func(*args, **kwargs)
         stop_time = perf_counter_ns()
-        result = (stop_time - start_time) / 10**9
+        exec_time = (stop_time - start_time) / 10**9
         # ИСПРАВИТЬ: служебная функция декоратора должна возвращать то же самое, что и декорируемая функция — а если нам необходимо дополнительно передать данные из декоратора, то можно отправить эти данные в поток или записать в глобальную переменную
-        return f"Время выполнения функции {result:.3f} секунд.\n"
+        print(f"Время выполнения функции {exec_time:.3f} секунд.\n")
+        return result
     return _wrapper
 
 @func_timer
 # ИСПРАВИТЬ: исходная функция возвращает None, не str
 def test_func(repeat: int = 10, 
-              timeout: float = 0.5) -> str:
+              timeout: float = 0.5) -> None:
     """Выводит заданное количество чисел с заданным интервалом.
 
        :param repeat: количество чисел
        :param timeout: интервал между выводом чисел в секундах
        """
     # ИСПРАВИТЬ: если объект используется, то лучше тогда всё-таки дать нормальное имя — раз здесь неважно, что это за объект, то можно просто n
-    for _ in range(repeat):
-        print(_, end=' ')
+    for n in range(repeat):
+        print(n, end=' ')
         sleep(timeout)
 
 
-print(test_func(repeat=15, timeout=0.1))
-print(test_func(10, 0.5))
+test_func(repeat=15, timeout=0.1)
+test_func(10, 0.5)
 
 
 # stdout:

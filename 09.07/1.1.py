@@ -9,11 +9,7 @@ def gen_card_deck():
 def gen_card_deck_shuffled():
     """Генерирует перемешанную колоду из 52 карт."""
     # ИСПОЛЬЗОВАТЬ: у вас ведь есть уже функция для упорядоченной колоды, используйте её — избегайте дублирования кода
-    # cards = list(gen_card_deck())
-    cards = []
-    for suit in ('черви', 'бубны', 'пики', 'крести'):
-        for value in range(1, 14):
-            cards.append((value, suit))
+    cards = list(gen_card_deck())
     for i in range(52):
         curr_card = choice(cards)
         cards.remove(curr_card)

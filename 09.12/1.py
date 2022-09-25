@@ -14,6 +14,7 @@ def check_lisp_line(line: str) -> bool:
             br_pair = char.translate(br_trans)
             if br_pair == br_tmp[-1]:
                 # ОТВЕТИТЬ: сами придумали стек использовать или нашли?
+                # Безрезультатно думал 2 дня, потом нашел про стек - все гениальное просто(
                 br_tmp = br_tmp[:-1]
             else:
                 return False
