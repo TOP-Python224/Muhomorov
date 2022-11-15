@@ -6,7 +6,7 @@ class Tetrahedron:
     Описывает правильный тетраэдр с ребром размером edge.
     """
     # ИСПРАВИТЬ: метод __init__() всегда возвращает None
-    def __init__(self, edge: Real) -> Real:
+    def __init__(self, edge: Real) -> None:
         if isinstance(edge, Real):
             self.edge = edge
         else:
@@ -16,13 +16,13 @@ class Tetrahedron:
     def area(self) -> Real:
         """Возвращает площадь тетраэдра."""
         # ИСПРАВИТЬ: в аннотации возвращаемого значения заявлен числовой тип, а возвращаете строку
-        return f"{3**0.5 * self.edge**2:.2f}"
+        return 3**0.5 * self.edge**2
 
     @property
     def volume(self) -> Real:
         """Возвращает объем тетраэдра."""
         # ИСПРАВИТЬ: в аннотации возвращаемого значения заявлен числовой тип, а возвращаете строку
-        return f"{2**0.5 / 12 * self.edge**3:.2f}"
+        return 2**0.5 / 12 * self.edge**3
 
     def __str__(self):
         return f"Тетраэдр: ребро = {self.edge}, площадь = {self.area}, объем = {self.volume}"
