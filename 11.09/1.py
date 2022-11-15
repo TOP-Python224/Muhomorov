@@ -1,8 +1,11 @@
-# Элементы матрицы хранятся в атрибутах.
 class Matrix1:
-    """Описывает матрицу."""
-    def __init__(self, rows: int, 
-                 cols: int, 
+    """
+    Описывает матрицу.
+    Элементы матрицы хранятся в атрибутах.
+    """
+    def __init__(self,
+                 rows: int,
+                 cols: int,
                  *args: int) -> None:
         """
         :param rows: количество строк матрицы,
@@ -17,7 +20,7 @@ class Matrix1:
                     self.__data = list(args)
                 else:
                     raise TypeError('Количество элементов матрицы не соответствует ее размеру!')
-        
+
     @property
     def rows(self) -> int:
         return self.__rows
@@ -36,7 +39,7 @@ class Matrix1:
             return True
         else:
             raise TypeError('Введено не целое число!')
-    
+
     def __check_matrix(self, matrix2) -> bool:
         """Проверяет, является ли матрица экземпляром класса, проверяет равенство размеров 2-х матриц."""
         if isinstance(matrix2, Matrix1):
@@ -51,19 +54,30 @@ class Matrix1:
     def __add__(self, matrix2) -> str:
         """Производит поэлементное сложение 2-х матриц."""
         if Matrix1.__check_matrix(self, matrix2):
-            result = list(map(lambda e1, e2: e1 + e2, self.data, matrix2.data))
+            result = list(map(
+                lambda e1, e2: e1 + e2,
+                self.data,
+                matrix2.data
+            ))
             return Matrix1(self.rows, self.cols, *result)
 
     def __sub__(self, matrix2) -> str:
         """Производит поэлементное вычитание 2-х матриц."""
         if Matrix1.__check_matrix(self, matrix2):
-            result = list(map(lambda e1, e2: e1 - e2, self.data, matrix2.data))
+            result = list(map(
+                lambda e1, e2: e1 - e2,
+                self.data,
+                matrix2.data
+            ))
             return Matrix1(self.rows, self.cols, *result)
 
     def __mul__(self, number) -> str:
         """Производит умножение элементов матрицы на число."""
         if Matrix1.__check_input(number):                
-            result = [elem * number for elem in self.__data]
+            result = [
+                elem * number
+                for elem in self.__data
+            ]
             return Matrix1(self.rows, self.cols, *result)
     
     def __str__(self) -> str:
@@ -74,14 +88,17 @@ class Matrix1:
         ]
         result = ''
         for i in range(self.rows):
-            result += f"{''.join(centered_matrix[i*self.cols: (i+1)*self.cols])}\n"
+            result += f"{''.join(centered_matrix[i*self.cols:(i+1)*self.cols])}\n"
         return result
 
 
-# Элементы матрицы хранятся в словаре. Сильно надуманный вариант.
 class Matrix2:
-    """Описывает матрицу."""
-    def __init__(self, rows: int, 
+    """
+    Описывает матрицу.
+    Элементы матрицы хранятся в словаре. Сильно надуманный вариант.
+    """
+    def __init__(self,
+                 rows: int,
                  cols: int, 
                  *args: int) -> None:
         """
@@ -133,19 +150,30 @@ class Matrix2:
     def __add__(self, matrix2) -> str:
         """Производит поэлементное сложение 2-х матриц."""
         if Matrix2.__check_matrix(self, matrix2):
-            result = list(map(lambda e1, e2: e1 + e2, self.data, matrix2.data))
+            result = list(map(
+                lambda e1, e2: e1 + e2,
+                self.data,
+                matrix2.data
+            ))
             return Matrix2(self.rows, self.cols, *result)
 
     def __sub__(self, matrix2) -> str:
         """Производит поэлементное вычитание 2-х матриц."""
         if Matrix2.__check_matrix(self, matrix2):
-            result = list(map(lambda e1, e2: e1 - e2, self.data, matrix2.data))
+            result = list(map(
+                lambda e1, e2: e1 - e2,
+                self.data,
+                matrix2.data
+            ))
             return Matrix2(self.rows, self.cols, *result)
 
     def __mul__(self, number) -> str:
         """Производит умножение элементов матрицы на число."""
         if Matrix2.__check_input(number):                
-            result = [elem * number for elem in self.data]
+            result = [
+                elem * number
+                for elem in self.data
+            ]
             return Matrix2(self.rows, self.cols, *result)
     
     def __str__(self) -> str:
@@ -153,17 +181,18 @@ class Matrix2:
         centered_matrix = [
             str(elem).rjust(max_width + 1)
             for elem in self.data
-            ]
+        ]
         result = ''
         for i in range(self.rows):
-            result += f"{''.join(centered_matrix[i*self.cols: (i+1)*self.cols])}\n"
+            result += f"{''.join(centered_matrix[i*self.cols:(i+1)*self.cols])}\n"
         return result
 
 
 m1 = Matrix1(3, 4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 m2 = Matrix1(3, 4, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
-m3 = Matrix2(4, 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
-m4 = Matrix2(4, 5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21)
+# КОММЕНТАРИЙ: не лень было ещё сорок чисел набирать?))
+m3 = Matrix2(4, 5, *range(1, 21))
+m4 = Matrix2(4, 5, *range(2, 22))
 print(m1)
 print(m1 + m2)
 print(m1 - m2)
@@ -171,6 +200,7 @@ print(m1 * 10)
 print(m3 + m4)
 print(m3 - m4)
 print(m3 * 7)
+
 
 # stdout:
 #   1  2  3  4
