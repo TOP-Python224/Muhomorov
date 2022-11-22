@@ -6,7 +6,9 @@ class Matrix1Error(Exception):
     pass
 
 class Matrix1ElemSizeError(Matrix1Error):
+    # ИСПРАВИТЬ здесь и далее: насколько я вижу, у вас используется вовсе не произвольное количество аргументов, а вполне себе конкретное — перепишите сигнатуры таким образом, чтобы параметры соответствовали запрашиваемым аргументам
     def __init__(self, *bad_args):
+        # УДАЛИТЬ: нет явной необходимости сохранять аргумент в атрибут — вы не используете это значение в других методах исключения — а если всё-таки сохраняете, то дайте более ясное имя атрибуту и сохраните в него более определённое значение — а то можно было бы сразу экземпляр матрицы сюда передать и сказать "она неправильная. где-то.. в чём-то..."
         self.bad_args = bad_args
         super().__init__(f"Количество элементов матрицы '{self.bad_args[0]}' "
                          f"не соответствует ее размеру '{self.bad_args[1]}'!")
@@ -18,6 +20,7 @@ class Matrix1BadNumberError(Matrix1Error):
 
 class Matrix1BadSizeError(Matrix1Error):
     def __init__(self, *matrix):
+        # КОММЕНТАРИЙ: а, ну да...)) вы прям мысли мои читаете))
         self.matrix = matrix
         super().__init__(f"Матрицы разного размера: '{self.matrix[0].rows}*{self.matrix[0].cols}' "
                          f"и '{self.matrix[1].rows}*{self.matrix[1].cols}'!")
@@ -140,6 +143,7 @@ class Matrix2NotTupleError(Matrix2Error):
 
 class Matrix2BadTupleError(Matrix2Error):
     def __init__(self, bad_arg):
+        # УДАЛИТЬ: такие вычисления не являются ответственностью исключения — вы должны это делать в момент генерации исключения — потому что код матрицы может измениться, а исключения не должны: разделённая ответственность, мы ещё будем об этом говорить, но всё же учитывайте
         self.bad_args = [elem for elem in bad_arg if not isinstance(elem, tuple)]
         super().__init__(f"Кортеж содержит элементы, не являющиеся кортежами '{self.bad_args}'!")
 
@@ -406,3 +410,6 @@ class Matrix2:
 #   File "D:\Step\python\rep\Muhomorov\11.16\1.py", line 205, in __compare_matrix
 #     raise MatrixBadInstanceError2(matrix1, matrix2)
 # MatrixBadInstanceError2: Аргумент - экземпляр класса 'Matrix1', должен быть 'Matrix2'!
+
+
+# ИТОГ: на текущем уровне хорошо, а степень детализации и настройки исключений, равно как и искусство именования с опытом придёт — 10/12
