@@ -32,3 +32,6 @@ print(from_rim_to_arab(rim_input))
 # 43
 # Введите римское число: MCCXXXIV
 # 1234
+
+
+# ИТОГ: отлично — 6/6
