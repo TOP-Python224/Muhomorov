@@ -1,14 +1,20 @@
 from datetime import date, datetime, timedelta
 from math import ceil
+from itertools import pairwise, count
+from time import perf_counter
 
 
 def str_to_date(str_date: str) -> date:
     """Преобразует строку с датой в формате ДД/ММ/ГГГГ в объект date."""
     d, m, y = str_date.split('/')
     return date(int(y), int(m), int(d))
+# КОММЕНТАРИЙ: всё это очень хорошо, но у класса datetime есть классовый метод strptime(), который возвращает datetime объект из строки согласно переданному формату: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 
 
-def str_to_tuple(str_date_periods: str) -> tuple[datetime]:
+# ИСПОЛЬЗОВАТЬ: отдельные переменные типов для вложенных аннотаций
+CalendarPeriod = tuple[datetime, datetime]
+CalendarPeriods = tuple[CalendarPeriod, ...]
+def str_to_tuple(str_date_periods: str) -> CalendarPeriods:
     """Преобразует строку с периодами в формате ДД/ММ/ГГГГ-ДД/ММ/ГГГГ, ДД/ММ/ГГГГ-ДД/ММ/ГГГГ в кортеж со вложенными кортежами объектов datetime, соответствующим периодам."""
     periods_tuple = ()
     for periods in str_date_periods.split(','):
@@ -31,25 +37,63 @@ vacations = str_to_tuple(vacations)
 days_in_week = tuple([int(n) for n in days_in_week.split(',')])
 study_days = ceil(int(pairs) / int(pairs_per_day))
 
-study_cnt = 0
-for period in vacations:
-    end_date = period[0]
-    study_period = (end_date - begin_date).days
-    for day in range(study_period):
-        curr_date = begin_date + timedelta(days=day)
-        if curr_date.weekday() in days_in_week:
-            print(f"{curr_date.strftime('%d/%m/%Y')}")
-            study_cnt += 1
-    begin_date = period[1]
-study_days -= study_cnt
+# start = perf_counter()
+#
+# study_cnt = 0
+# for period in vacations:
+#     end_date = period[0]
+#     study_period = (end_date - begin_date).days
+#     for day in range(study_period):
+#         curr_date = begin_date + timedelta(days=day)
+#         if curr_date.weekday() in days_in_week:
+#             print(f"{curr_date.strftime('%d/%m/%Y')}")
+#             study_cnt += 1
+#     begin_date = period[1]
+# study_days -= study_cnt
+#
+# day = 1
+# while study_days > 0:
+#     curr_date = begin_date + timedelta(days=day)
+#     if curr_date.weekday() in days_in_week:
+#         print(f"{curr_date.strftime('%d/%m/%Y')}")
+#         study_days -= 1
+#     day += 1
+#
+# end = perf_counter()
+# print(f"Elapsed time for 'days'-way: {end - start}")
 
-day = 1
-while study_days > 0:
-    curr_date = begin_date + timedelta(days=day)
-    if curr_date.weekday() in days_in_week:
-        print(f"{curr_date.strftime('%d/%m/%Y')}")    
-        study_days -= 1
-    day += 1
+
+# ИСПОЛЬЗОВАТЬ: такой вариант мне представляется всё-таки более упорядоченным с точки зрения потока выполнения — а по времени получается примерно одинаково
+
+def is_vacation(lesson_date: date | datetime) -> bool:
+    """Проверяет переданный день, попадает ли он в любой из заявленных периодов каникул."""
+    for period_start, period_end in vacations:
+        if period_start <= lesson_date <= period_end:
+            return True
+    return False
+
+start = perf_counter()
+
+# КОММЕНТАРИЙ: сдвиг (количество дней) относительно дня недели стартовой даты
+week_shift = [0] + [d2-d1 for d1, d2 in pairwise(days_in_week)]
+# study_weeks = ceil(study_days / len(days_in_week))
+
+days = ()
+# for i in range(study_weeks):
+for i in count(0):
+    for ws in week_shift:
+        day = begin_date + timedelta(weeks=i) + timedelta(days=ws)
+        if is_vacation(day):
+            continue
+        days += (day,)
+    if len(days) >= study_days:
+        break
+
+for day in days:
+    print(f'{day:%d/%m/%Y}')
+
+end = perf_counter()
+print(f"Elapsed time for 'weeks'-way: {end - start}")
 
 # stdout:
 # Введите дату начала занятий в формате ДД/ММ/ГГГГ: 04/07/2022
@@ -127,3 +171,9 @@ while study_days > 0:
 # 15/03/2023
 # 20/03/2023
 # 22/03/2023
+
+# Elapsed time for 'days'-way: 0.0011960000001636217
+# Elapsed time for 'weeks'-way: 0.0011500999999043415
+
+
+# ИТОГ: хорошо — 8/10
