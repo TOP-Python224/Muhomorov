@@ -1,20 +1,15 @@
 from datetime import date, datetime, timedelta
 from math import ceil
 
-begin_date = input('Введите дату начала занятий в формате ДД/ММ/ГГГГ: ')
-pairs = input('Введите количество пар: ')
-pairs_per_day = input('Введите количество пар в день: ')
-days_in_week = input('Введите учебные дни недели от 0 (Пнд) до 6 (Вск) через запятую: ')
-vacations = input('Введите периоды каникул в формате ДД/ММ/ГГГГ-ДД/ММ/ГГГГ через запятую: ')
-# vacations = '01/08/2022-14/08/2022, 31/12/2022-08/01/2023'
 
-def str_to_date(str_date: str) -> datetime:
-    """Преобразует строку с датой в формате ДД/ММ/ГГГГ в объект datetime."""
+def str_to_date(str_date: str) -> date:
+    """Преобразует строку с датой в формате ДД/ММ/ГГГГ в объект date."""
     d, m, y = str_date.split('/')
     return date(int(y), int(m), int(d))
 
+
 def str_to_tuple(str_date_periods: str) -> tuple[datetime]:
-    """Преобразует стороку с периодами в формате ДД/ММ/ГГГГ-ДД/ММ/ГГГГ, ДД/ММ/ГГГГ-ДД/ММ/ГГГГ в кортеж со вложенными кортежами объектов datetime, соответствующим периодам."""
+    """Преобразует строку с периодами в формате ДД/ММ/ГГГГ-ДД/ММ/ГГГГ, ДД/ММ/ГГГГ-ДД/ММ/ГГГГ в кортеж со вложенными кортежами объектов datetime, соответствующим периодам."""
     periods_tuple = ()
     for periods in str_date_periods.split(','):
         dates_tuple = ()
@@ -22,6 +17,14 @@ def str_to_tuple(str_date_periods: str) -> tuple[datetime]:
             dates_tuple += (str_to_date(dates),)
         periods_tuple += (dates_tuple,)
     return periods_tuple
+
+
+begin_date = input('Введите дату начала занятий в формате ДД/ММ/ГГГГ: ')
+pairs = input('Введите количество пар: ')
+pairs_per_day = input('Введите количество пар в день: ')
+days_in_week = input('Введите учебные дни недели от 0 (Пнд) до 6 (Вск) через запятую: ')
+vacations = input('Введите периоды каникул в формате ДД/ММ/ГГГГ-ДД/ММ/ГГГГ через запятую: ')
+# vacations = '01/08/2022-14/08/2022, 31/12/2022-08/01/2023'
 
 begin_date = str_to_date(begin_date)
 vacations = str_to_tuple(vacations)
@@ -33,7 +36,7 @@ for period in vacations:
     end_date = period[0]
     study_period = (end_date - begin_date).days
     for day in range(study_period):
-        curr_date = begin_date + timedelta(days = day)
+        curr_date = begin_date + timedelta(days=day)
         if curr_date.weekday() in days_in_week:
             print(f"{curr_date.strftime('%d/%m/%Y')}")
             study_cnt += 1
@@ -42,7 +45,7 @@ study_days -= study_cnt
 
 day = 1
 while study_days > 0:
-    curr_date = begin_date + timedelta(days = day)
+    curr_date = begin_date + timedelta(days=day)
     if curr_date.weekday() in days_in_week:
         print(f"{curr_date.strftime('%d/%m/%Y')}")    
         study_days -= 1

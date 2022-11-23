@@ -1,6 +1,6 @@
-from ast import While
 from time import sleep
 from typing import Callable
+
 
 def repeat_call(func: Callable) -> Callable:
     """Повторно (с задержкой в 5 сек.) вызывает декорируемую функцию в случае ее завершения с исключением."""
@@ -13,13 +13,16 @@ def repeat_call(func: Callable) -> Callable:
                 sleep(5)
     return _wrapper
 
+
 @repeat_call
 def test_func(a: iter) -> int | float:
     """Возвращает сумму элементов принятого итерируемого объекта."""
     return sum(a)
 
+
 print(test_func([1, 2, 3, 4]))
 print(test_func(1))
+
 
 # stdout:
 # 10

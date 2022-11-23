@@ -1,7 +1,7 @@
 from itertools import count
 from string import ascii_lowercase
 
-d = dict(zip((ascii_lowercase), (x + 1 for x in count(0))))
+d = dict(zip(ascii_lowercase, (x+1 for x in count(0))))
 print(d)
 
 # stdout:
