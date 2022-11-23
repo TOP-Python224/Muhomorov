@@ -1,3 +1,6 @@
+from itertools import pairwise
+
+
 class Point:
     """Описывает точку плоскости в декартовой системе координат."""
     def __init__(self,
@@ -7,8 +10,11 @@ class Point:
         self.y = y
 
     # Этого нет в ТЗ, но так красивее.
+    # КОММЕНТАРИЙ: одобряю!
     def __ne__(self, other):
         return self.x != other.x or self.y != other.y
+
+    # ОТВЕТИТЬ: как теперь можно быстро написать __eq__()?
 
 
 class Line:
@@ -16,6 +22,7 @@ class Line:
     def __init__(self,
                  start: Point,
                  end: Point):
+        # КОММЕНТАРИЙ: я бы поменял местами имена атрибутов и параметров: start_point для параметра (чтобы в конструкторе лучше читалось), и start для атрибута (чтобы обращение к атрибуту короче было)
         self.start_point = start
         self.end_point = end
 
@@ -37,10 +44,14 @@ class Polygon(list):
 
     def _is_closed(self) -> bool:
         """Проверяет, замкнут ли многоугольник."""
-        if self[0].start_point != self[-1].end_point:
-            return False
-        for i in range(len(self) - 1):
-            if self[i].end_point != self[i + 1].start_point:
+        # if self[0].start_point != self[-1].end_point:
+        #     return False
+        # for i in range(len(self) - 1):
+        #     if self[i].end_point != self[i+1].start_point:
+        #         return False
+        # ИСПОЛЬЗОВАТЬ: не то чтобы имелась существенная разница, но этот вариант, имхо, читается лучше
+        for line1, line2 in pairwise(self + [self[0]]):
+            if line1.end_point != line2.start_point:
                 return False
         return True
 
@@ -83,3 +94,6 @@ class Polygon(list):
 # 0
 # 11.82165667975987
 # 0
+
+
+# ИТОГ: отлично — 7/7

@@ -31,9 +31,10 @@ class Student(Person):
         self.commercial = commercial
 
     def __str__(self):
-        return f"{self.surname} {self.name} {self.patronymic} " \
-               f"учится в {self.educational_organization} " \
-               f"на {'коммерческой' if self.commercial else 'бюджетной'} основе."
+        # ИСПОЛЬЗОВАТЬ: функцию super() мы можем использовать в связке с любыми методами
+        return super().__str__() + \
+               f" учится в {self.educational_organization}" \
+               f" на {'коммерческой' if self.commercial else 'бюджетной'} основе."
 
 
 class Employee(Person):
@@ -49,6 +50,7 @@ class Employee(Person):
         self.salary = salary
 
     def __str__(self):
+        # ИСПРАВИТЬ: использовать возвращаемое значение родительского метода __str__()
         return f"{self.surname} {self.name} {self.patronymic} " \
                f"работает в {self.company} " \
                f"с зарплатой {self.salary} рублей."
@@ -85,3 +87,6 @@ class Employee(Person):
 #
 # Петров Александр Сергеевич работает в Ярче с зарплатой 30000 рублей.
 # False True
+
+
+# ИТОГ: хорошо — 4/5
