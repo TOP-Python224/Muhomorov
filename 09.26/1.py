@@ -1,52 +1,58 @@
 from math import lcm
-from fractions import Fraction
+from fractions import Fraction as frac
 
 
-def make_axis(fractions: tuple[Fraction]) -> str:
-    """Выводит отрезок ось с отметками полученных рациональных дробей в виде строки."""
-    axis_lcm = lcm(*denoms)
-    denoms_iter = denoms.copy()
+# ИСПРАВИТЬ: параметр fractions не используется
+# ИСПОЛЬЗОВАТЬ здесь и далее: чтобы не путаться в глобальных и локальных переменных настоятельно рекомендую называть их по-разному
+def make_axis(fraction_numbers: tuple[frac]) -> str:
+    """Возвращает строку, содержащую символьное представление отрезка горизонтальной оси с отметками полученных рациональных дробей."""
+    axis_lcm = lcm(*denominators)
+    denoms_iter = denominators.copy()
     denoms_iter.append(axis_lcm + 1)
-    line_cnt = 0
-    axis_line = ''
+    # ИСПОЛЬЗОВАТЬ: j_mark — индекс отметки на оси
+    j_mark = 0
+    # ИСПОЛЬЗОВАТЬ: axis — строка, которую возвращает функция make_axis()
+    axis = ''
     for i in range(axis_lcm):
-        if i == axis_lcm / denoms_iter[line_cnt]:
-            axis_line += '|—'
-            line_cnt += 1
+        if i == axis_lcm / denoms_iter[j_mark]:
+            axis += '|—'
+            j_mark += 1
         else:
-            axis_line += '—'
-    return axis_line
+            axis += '—'
+    return axis
 
 
-def make_axis_text(axis_line: str) -> str:
+def make_axis_labels(axis_line: str) -> tuple[str, str]:
     """Выводит подписи рациональных дробей на отметках полученного отрезка оси в виде строк."""
     line_cnt = 0
-    di = 0
-    top_line = bottom_line = ' ' * len(axis_line)
+    # ИСПОЛЬЗОВАТЬ: j_label — индекс очередной подписи
+    j_label = 0
+    # ИСПОЛЬЗОВАТЬ: в axis_line – line у вас это отрезок, а в top_line – line у вас строка — это усложняет чтение кода
+    top_labels = bottom_labels = ' ' * len(axis_line)
     for i in range(len(axis_line)):
         if axis_line[i] == '|':
             if line_cnt % 2 == 0:
-                top_line = top_line[:i-1] + '1/' + str(denoms[di]) + top_line[i+1:-1]
+                top_labels = top_labels[:i-1] + '1/' + str(denominators[j_label]) + top_labels[i+1:-1]
             else:
-                bottom_line = bottom_line[:i-1] + '1/' + str(denoms[di]) + bottom_line[i+1:-1]
-            di += 1
+                bottom_labels = bottom_labels[:i-1] + '1/' + str(denominators[j_label]) + bottom_labels[i+1:-1]
+            j_label += 1
             line_cnt += 1
-    return top_line, bottom_line
+    return top_labels, bottom_labels
 
 
-def draw_axis(fractions: tuple[Fraction]) -> None:
+def draw_axis(fraction_numbers: tuple[frac, ...]) -> None:
     """Выводит отрезок оси с отметками и подписями полученных рациональных дробей."""
-    axis_line = make_axis(fractions)
-    top_line, bottom_line = make_axis_text(axis_line)
-    print(f" {top_line} ")
+    axis_line = make_axis(fraction_numbers)
+    top_labels, bottom_labels = make_axis_labels(axis_line)
+    print(f" {top_labels} ")
     print(f"|{axis_line}|")
-    print(f"0{bottom_line}1")
+    print(f"0{bottom_labels}1")
 
 
-# fractions = (Fraction('1/2'), Fraction('1/3'), Fraction('1/4'))
-# fractions = (Fraction('1/2'), Fraction('1/3'), Fraction('1/4'), Fraction('1/5'), Fraction('1/6'))
-fractions = Fraction('1/2'),
-denoms = list(sorted([f.denominator for f in fractions], reverse=True))
+fractions = (frac('1/2'), frac('1/3'), frac('1/4'))
+# fractions = (frac('1/2'), frac('1/3'), frac('1/4'), frac('1/5'), frac('1/6'))
+# fractions = frac('1/2'),
+denominators = list(sorted([f.denominator for f in fractions], reverse=True))
 draw_axis(fractions)
 
 

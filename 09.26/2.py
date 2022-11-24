@@ -13,10 +13,12 @@ unhandled_data = []
 file = Path('D:/Step/python/ДЗ/09.26/# buffer.txt')
 
 
+# ИСПОЛЬЗОВАТЬ: в имени параметра функции особенно важно указать, что вы ожидаете: путь или файлоподобный объект
 def get_data_from_buffer(file_path: Path, *, sep: str = ';') -> str:
-    """Функция-генератор, выводит пакеты данных, полученных из файла."""
-    with open(file_path, encoding='utf-8') as buffer:
-        data = buffer.readline()
+    # ИСПОЛЬЗОВАТЬ: слово "вывод" обычно используется в контексте работы со стандартным потоком
+    """Функция-генератор, возвращает пакеты данных, полученных из файла."""
+    with open(file_path, encoding='utf-8') as filein:
+        data = filein.readline()
         for packet in data.split(sep):
             yield packet
 
@@ -38,8 +40,9 @@ def parse_data(data_flow: iter) -> None:
             unhandled_data.append(data)
 
 
-data_flow = get_data_from_buffer(file)
-parse_data(data_flow)
+# ИСПОЛЬЗОВАТЬ: для лучшего различения глобальных и локальных переменных
+buffer = get_data_from_buffer(file)
+parse_data(buffer)
 
 print(monitoring, '\n')
 print(geodata.latitude, '\n')
