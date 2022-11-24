@@ -1,5 +1,7 @@
 """Модуль для вывода сообщения."""
+
 from shutil import get_terminal_size as gts
+
 
 def important_message(msg: str) -> None:
     """Выводит в терминал сообщение, обрамленное рамкой"""
@@ -16,5 +18,3 @@ def important_message(msg: str) -> None:
     else:
         print(f"#  {msg.ljust(columns - 2)}#")
     print(f"{line}\n{border}")
-    
-

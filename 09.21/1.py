@@ -2,12 +2,14 @@ from pathlib import Path
 from sys import path, modules
 from importlib.util import spec_from_file_location, module_from_spec
 
+
 script_dir = Path(path[0])
 module_path = script_dir / '1_2.py'
 spec = spec_from_file_location('module_for_print_msg', module_path)
 print_mod = module_from_spec(spec)
 modules['digit_name_module'] = print_mod
 spec.loader.exec_module(print_mod)
+
 
 while True:
     cmd, sep, msg = input('Введите команду msg, затем через пробел ваше сообщение, либо команду quit для выхода: ').partition(' ')
@@ -17,6 +19,7 @@ while True:
         break
     else:
         raise ValueError('Введена некорректная команда!')
+
 
 # stdout:
 # Введите команду msg, затем через пробел ваше сообщение, либо команду quit для выхода: quit
