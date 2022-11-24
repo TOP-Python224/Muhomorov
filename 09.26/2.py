@@ -2,6 +2,7 @@ from pathlib import Path
 from collections import namedtuple
 from decimal import Decimal
 
+
 Monitoring = namedtuple('Monitoring', 'percentage')
 monitoring = Monitoring([])
 Geodata = namedtuple('Geodata', ['latitude', 'longitude'])
@@ -11,14 +12,14 @@ appdata = AppData([], [])
 unhandled_data = []
 file = Path('D:/Step/python/ДЗ/09.26/# buffer.txt')
 
-def get_data_from_buffer(file: Path, *, sep: str = ';') -> str:
+
+def get_data_from_buffer(file_path: Path, *, sep: str = ';') -> str:
     """Функция-генератор, выводит пакеты данных, полученных из файла."""
-    with open(file, encoding = 'utf-8') as buffer:
+    with open(file_path, encoding='utf-8') as buffer:
         data = buffer.readline()
         for packet in data.split(sep):
             yield packet
 
-data_flow = get_data_from_buffer(file)
 
 def parse_data(data_flow: iter) -> None:
     """В зависимости от содержимого полученных пакетов данных, записывает данные в нужном формате в соответствующие именованные кортежи."""
@@ -36,6 +37,8 @@ def parse_data(data_flow: iter) -> None:
         else:
             unhandled_data.append(data)
 
+
+data_flow = get_data_from_buffer(file)
 parse_data(data_flow)
 
 print(monitoring, '\n')
@@ -44,6 +47,7 @@ print(geodata.longitude, '\n')
 print(appdata.status, '\n')
 print(appdata.message)
 print(unhandled_data)
+
 
 # stdout:
 # Monitoring(percentage=[Decimal('57.28'), Decimal('21.65'), Decimal('73.94'), Decimal('38.87'), Decimal('64.86'), Decimal('17.63'), Decimal('48.56'), Decimal('76.35'), Decimal('26.26'), Decimal('79.96'), Decimal('21.52'), Decimal('74.79'), Decimal('40.58'), Decimal('21.78'), Decimal('21.09'), Decimal('56.83'), Decimal('22.78'), Decimal('37.75'), Decimal('86.18'), Decimal('76.15'), Decimal('78.48'), Decimal('21.46'), Decimal('92.17'), Decimal('76.61'), Decimal('57.62'), Decimal('38.55'), Decimal('22.18'), Decimal('47.73'), Decimal('94.35'), Decimal('84.65'), Decimal('40.86'), Decimal('35.37'), Decimal('51.54'), Decimal('67.43'), Decimal('72.68'), Decimal('65.81'), Decimal('55.32'), Decimal('36.52'), Decimal('93.98'), Decimal('65.27'), Decimal('50.63'), Decimal('22.38'), Decimal('14.84'), Decimal('57.35'), Decimal('83.27'), Decimal('65.55'), Decimal('23.88'), Decimal('28.67'), Decimal('67.76'), Decimal('63.44'), Decimal('41.78'), Decimal('96.41'), Decimal('47.27'), Decimal('40.36'), Decimal('88.42'), Decimal('99.17'), Decimal('29.42'), Decimal('72.34'), Decimal('90.91'), 
