@@ -13,8 +13,8 @@ def important_message(msg: str) -> None:
     if msg_len >= columns:
         n = msg_len // columns
         for _ in range(n + 1):
-            print(f"#  {msg[:columns - 4].ljust(columns - 2)}#")
-            msg = msg[columns - 4:]
+            print(f"#  {msg[:columns-4].ljust(columns - 2)}#")
+            msg = msg[columns-4:]
     else:
         print(f"#  {msg.ljust(columns - 2)}#")
     print(f"{line}\n{border}")
