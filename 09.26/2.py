@@ -10,7 +10,8 @@ geodata = Geodata([], [])
 AppData = namedtuple('Appdata', ['status', 'message'])
 appdata = AppData([], [])
 unhandled_data = []
-file = Path('D:/Step/python/ДЗ/09.26/# buffer.txt')
+# ИСПОЛЬЗОВАТЬ: путь относительно файла данного модуля
+file = Path(__file__).parent / '# buffer.txt'
 
 
 # ИСПОЛЬЗОВАТЬ: в имени параметра функции особенно важно указать, что вы ожидаете: путь или файлоподобный объект
@@ -19,8 +20,9 @@ def get_data_from_buffer(file_path: Path, *, sep: str = ';') -> str:
     """Функция-генератор, возвращает пакеты данных, полученных из файла."""
     with open(file_path, encoding='utf-8') as filein:
         data = filein.readline()
-        for packet in data.split(sep):
-            yield packet
+    # ИСПОЛЬЗОВАТЬ: завершить работу менеджера контекста with стоит сразу по завершению чтения нужных данных, чтобы как можно быстрее закрыть файл — это особенно важно с теми файлами, которые выступают в качестве буферов (т.е. к ним обращаются различные процессы)
+    for packet in data.split(sep):
+        yield packet
 
 
 def parse_data(data_flow: iter) -> None:
@@ -36,6 +38,7 @@ def parse_data(data_flow: iter) -> None:
             appdata.message.append(data)
         elif data.isdecimal():
             appdata.status.append(int(data))
+        # КОММЕНТАРИЙ: хорошая мысль, оценил
         else:
             unhandled_data.append(data)
 
@@ -73,3 +76,6 @@ print(unhandled_data)
 
 # ['f', 'B', 'K', 'b', 'W', 'u', 's', 'r', 'E', 'H', 'H', 'Y', 'r', 'X', 'l', 'Y', 'W', 'W', 'C', 'f', 'K', 'x', 'R', 'L', 'r', 'V', 'S', 'j', 'l', 'O', 'u', 'C', 'k', 'Z', 'g', 'R', 'S', 'K', 'm', 'v', 'Y', 'K', 'H', 'F', 'P', 'g', 'a', 'J', 'L', 'i', 'n', 'p', 'j', 'F', 'O', 'Q', 'C', 'a', 'd', 'X', 'W', 's', 'd', 'N', 'r', 'p', 'g', 'D', 'Q', 'q', 'V', 'g', 'W', 'f', 'q', 'E', 'S', 'X', 'r', 'f', 'w', 'q', 'I', 'e', 'f', 'd', 'E', 'S', 'y', 'N', 'r', 'X', 'y', 'L', 'b', 'P', 'P', 'n', 'U', 'w', 'k', 'a', 'W', 'h', 'W', 'C', 'p', 'e', 'v', 'i', 'x', 'j', 'N', 'F', 'q', 'x', 'f', 'V', 'y', 'G', 'K', 'j', 'q', 'A', 'w', 's', 'B', 'Z', 'Y', 'U', 's', 'F', 'S', 'C', 'o', 'k', 'p', 'K', 'N', 'N', 'u', 'j', 'J', 'B', 'G', 'Y', 'R', 'v', 'x', 'M', 'O', 'A', 'V', 'h', 'P', 'a', 'f', 'D', 't', 'v', 'q', 'Y', 'c', 'M', 'T', 'c', 't', 'Z', 'D', 'x', 'U', 'd', 'l', 'H', 'T', 'V', 'O', 'r', 'a', 'w', 'J', 'N', 'H', 'd', 'q', 'L', 'w', 'M', 'V', 'J', 'a', 'Q', 'Q', 'M', 'o', 'J', 'X', 'e', 'a', 'U', 'T', 'S', 'P', 'm', 'w', 'G', 'R', 'Z', 'F', 'X', 'e', 'i', 'y', 'H', 'r', 'h', 'l', 'R', 's', 'K', 'V', 'e', 'x', 'G', 't', 'D', 'Y', 'V', 'u', 'n', 'H', 'T', 'y', 't', 'w', 'O', 'r', 'm', 'a', 'C', 'M', 'N', 'Z', 'o', 'l', 'T', 'Z', 'y', 'K', 'q', 'a', 'p', 'i', 'U', 'b', 'h', 'p', 'O', 'Z', 'M', 'f', 'U', 'G', 'f', 'a', 'U', 'X', 'M', 'M', 's', 'c', 'C', 'R', 'U', 'T', 'k', 'X', 'I', 'Z', 'v', 'f', 't', 'Q', 'I', 'i', 'p', 'c', 'i', 'w', 'q', 'y', 'C', 'C', 'Q', 'G', 'O', 'P', 'q', 'V', 'b', 'e', 't', 'v', 'd', 'E', 'M', 'I', 'H', 'P', 'z', 'Q', 't', 'q', 'X', 'o', 'S', 'A', 'j', 'u', 'Q', 'o', 'O', 'E', 'N', 'c', 'R', 'e', 'z', 'j', 'b', 'P', 'N', 'S', 'X', 'g', 'H', 'c', 'N', 'Q', 'x', 'n', 'q', 'I', 'b', 'Y', 'h', 'Q', 'D', 'z', 'K', 'w', 'w', 'O', 'A', 'k', 'j', 'I', 'U', 'I', 'q', 'j', 'U', 'r', 'A', 'c', 'Z', 'i', 'B', 'r', 'D', 'U', 'h', 'n', 'h', 'J', 'v', 'X', 'S', 'K', 'V', 'J', 'i', 'X', 'f', 'r', 'n', 'E', 'P', 's', 'o', 's', 'E', 'X', 'O', 'K', 'N', 't', 'M', 'p', 'H', 'u', 'u', 'B', 'U', 'W', 'N', 'Y', 'o', 'E', 'c', 'g', 'n', 'E', 't', 'O', 'Z', 'G', 'P', 'M', 'q', 'H', 'K', 'G', 'o', 'G', 'v', 'L', 's', 'b', 'E', 'f', 'G', 'H', 'M', 'g', 'P', 'X', 'n', 'm', 'g', 'v', 'h', 'i', 'T', 'O', 'K', 'a', 's', 'y', 's', 'D', 'P', 'T', 'j', 'A', 'M', 'g', 'P', 'X', 'Y', 'J', 'v', 'R', 'c', 'O', 'U', 'M', 'O', 'H', 'Z', 'G', 'V', 'K', 'n', 'C', 'I', 'G', 'M', 'u', 'B', 'U', 'B', 't', 'G', 'T', 'o', 'U', 'C', 'a', 'Y', 'k', 'R', 'c', 'z', 'X', 'T', 'g', 'p', 'R', 'S']
 # []
+
+
+# ИТОГ: очень хорошо — 6/7
