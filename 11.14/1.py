@@ -51,7 +51,7 @@ class Employee(Person):
 
     def __str__(self):
         # ИСПРАВИТЬ: использовать возвращаемое значение родительского метода __str__()
-        return f"{self.surname} {self.name} {self.patronymic} " \
+        return super().__str__() + \
                f"работает в {self.company} " \
                f"с зарплатой {self.salary} рублей."
 

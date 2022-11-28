@@ -15,6 +15,9 @@ class Point:
         return self.x != other.x or self.y != other.y
 
     # ОТВЕТИТЬ: как теперь можно быстро написать __eq__()?
+    # Так? Это быстро пишется, но выполняется медленнее.
+    def __eq__(self, other):
+        return not self.__ne__(other)
 
 
 class Line:
@@ -65,30 +68,30 @@ class Polygon(list):
         return sides_length
 
 
-# p1 = Point(1, 2)
-# p2 = Point(7, 5)
-# p3 = Point(11, 2)
-# p4 = Point(6, -1)
-# p5 = Point(4, 1)
-# p6 = Point(0, 0)
-#
-# l1 = Line(p1, p2)
-# l2 = Line(p2, p3)
-# l3 = Line(p3, p4)
-# l4 = Line(p4, p5)
-# l5 = Line(p5, p1)
-# l6 = Line(p5, p6)
-#
-# pol1 = Polygon(l1, l2, l3, l4, l5)
-# pol2 = Polygon(l1, l2, l3, l4, l6)
-# pol3 = Polygon(Line(p1, p5), Line(p5, p4), Line(p4, p1))
-# pol4 = Polygon(Line(p2, p5), Line(p5, p4), Line(p4, p1))
-#
-# print(pol1.perimeter)
-# print(pol2.perimeter)
-# print(pol3.perimeter)
-# print(pol4.perimeter)
+p1 = Point(1, 2)
+p2 = Point(7, 5)
+p3 = Point(11, 2)
+p4 = Point(6, -1)
+p5 = Point(4, 1)
+p6 = Point(0, 0)
 
+l1 = Line(p1, p2)
+l2 = Line(p2, p3)
+l3 = Line(p3, p4)
+l4 = Line(p4, p5)
+l5 = Line(p5, p1)
+l6 = Line(p5, p6)
+
+pol1 = Polygon(l1, l2, l3, l4, l5)
+pol2 = Polygon(l1, l2, l3, l4, l6)
+pol3 = Polygon(Line(p1, p5), Line(p5, p4), Line(p4, p1))
+pol4 = Polygon(Line(p2, p5), Line(p5, p4), Line(p4, p1))
+
+print(pol1.perimeter)
+print(pol2.perimeter)
+print(pol3.perimeter)
+print(pol4.perimeter)
+print(p1 == p1)
 # stdout:
 # 23.52986061225924
 # 0
