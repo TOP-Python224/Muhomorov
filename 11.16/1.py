@@ -5,31 +5,31 @@ from typing import Self
 class Matrix1Error(Exception):
     pass
 
+
 class Matrix1ElemSizeError(Matrix1Error):
     # ИСПРАВИТЬ здесь и далее: насколько я вижу, у вас используется вовсе не произвольное количество аргументов, а вполне себе конкретное — перепишите сигнатуры таким образом, чтобы параметры соответствовали запрашиваемым аргументам
-    def __init__(self, *bad_args):
+    def __init__(self, size1, size2):
         # УДАЛИТЬ: нет явной необходимости сохранять аргумент в атрибут — вы не используете это значение в других методах исключения — а если всё-таки сохраняете, то дайте более ясное имя атрибуту и сохраните в него более определённое значение — а то можно было бы сразу экземпляр матрицы сюда передать и сказать "она неправильная. где-то.. в чём-то..."
-        self.bad_args = bad_args
-        super().__init__(f"Количество элементов матрицы '{self.bad_args[0]}' "
-                         f"не соответствует ее размеру '{self.bad_args[1]}'!")
+        super().__init__(f"Количество элементов матрицы '{size1}' "
+                         f"не соответствует ее размеру '{size2}'!")
+
 
 class Matrix1BadNumberError(Matrix1Error):
     def __init__(self, bad_arg):
-        self.bad_arg = bad_arg
-        super().__init__(f"Введено не целое число '{self.bad_arg}'!")
+        super().__init__(f"Введено не целое число '{bad_arg}'!")
+
 
 class Matrix1BadSizeError(Matrix1Error):
-    def __init__(self, *matrix):
+    def __init__(self, matrix1, matrix2):
         # КОММЕНТАРИЙ: а, ну да...)) вы прям мысли мои читаете))
-        self.matrix = matrix
-        super().__init__(f"Матрицы разного размера: '{self.matrix[0].rows}*{self.matrix[0].cols}' "
-                         f"и '{self.matrix[1].rows}*{self.matrix[1].cols}'!")
+        super().__init__(f"Матрицы разного размера: '{matrix1.rows}*{matrix1.cols}' "
+                         f"и '{matrix2.rows}*{matrix2.cols}'!")
+
 
 class Matrix1BadInstanceError(Matrix1Error):
-    def __init__(self, *matrix):
-        self.matrix = matrix
-        super().__init__(f"Аргумент - экземпляр класса '{matrix[1].__class__.__name__}', "
-                         f"должен быть '{matrix[0].__class__.__name__}'!")
+    def __init__(self, matrix1, matrix2):
+        super().__init__(f"Аргумент - экземпляр класса '{matrix2.__class__.__name__}', "
+                         f"должен быть '{matrix1.__class__.__name__}'!")
 
 
 class Matrix1:
@@ -127,42 +127,41 @@ class Matrix1:
         return result
 
 
-
 class Matrix2Error(Exception):
     pass
 
+
 class Matrix2BadNumberError(Matrix2Error):
     def __init__(self, bad_arg):
-        self.bad_arg = bad_arg
-        super().__init__(f"Введено не целое число '{self.bad_arg}'!")
+        super().__init__(f"Введено не целое число '{bad_arg}'!")
+
 
 class Matrix2NotTupleError(Matrix2Error):
     def __init__(self, bad_arg):
-        self.bad_arg = bad_arg
-        super().__init__(f"Введенный аргумент - '{self.bad_arg.__class__.__name__}', должен быть 'tuple'!")
+        super().__init__(f"Введенный аргумент - '{bad_arg.__class__.__name__}', должен быть 'tuple'!")
+
 
 class Matrix2BadTupleError(Matrix2Error):
-    def __init__(self, bad_arg):
+    def __init__(self, bad_args):
         # УДАЛИТЬ: такие вычисления не являются ответственностью исключения — вы должны это делать в момент генерации исключения — потому что код матрицы может измениться, а исключения не должны: разделённая ответственность, мы ещё будем об этом говорить, но всё же учитывайте
-        self.bad_args = [elem for elem in bad_arg if not isinstance(elem, tuple)]
-        super().__init__(f"Кортеж содержит элементы, не являющиеся кортежами '{self.bad_args}'!")
+        super().__init__(f"Кортеж содержит элементы, не являющиеся кортежами '{bad_args}'!")
+
 
 class Matrix2TupleSizeError(Matrix2Error):
-    def __init__(self, bad_arg):
-        self.bad_args = [len(elem) for elem in bad_arg]
-        super().__init__(f"Кортеж содержит кортежи не одинакового размера '{self.bad_args}'!")
+    def __init__(self, bad_args):
+        super().__init__(f"Кортеж содержит кортежи не одинакового размера '{bad_args}'!")
+
 
 class Matrix2BadSizeError(Matrix2Error):
-    def __init__(self, *matrix):
-        self.matrix = matrix
-        super().__init__(f"Матрицы разного размера: '{self.matrix[0].rows}*{self.matrix[0].cols}' "
-                         f"и '{self.matrix[1].rows}*{self.matrix[1].cols}'!")
+    def __init__(self, matrix1, matrix2):
+        super().__init__(f"Матрицы разного размера: '{matrix1.rows}*{matrix1.cols}' "
+                         f"и '{matrix2.rows}*{matrix2.cols}'!")
+
 
 class Matrix2BadInstanceError(Matrix2Error):
-    def __init__(self, *matrix):
-        self.matrix = matrix
-        super().__init__(f"Аргумент - экземпляр класса '{matrix[1].__class__.__name__}', "
-                         f"должен быть '{matrix[0].__class__.__name__}'!")
+    def __init__(self, matrix1, matrix2):
+        super().__init__(f"Аргумент - экземпляр класса '{matrix2.__class__.__name__}', "
+                         f"должен быть '{matrix1.__class__.__name__}'!")
 
 
 class Matrix2:
@@ -213,10 +212,12 @@ class Matrix2:
         """Проверяет, является ли введенный аргумент кортежем кортежей правильного размера."""
         if not isinstance(matrix, tuple):
             raise Matrix2NotTupleError(matrix)
-        elif not all([True if isinstance(elem, tuple) else False for elem in matrix]):
-            raise Matrix2BadTupleError(matrix)
-        elif not all([True if len(elem) == len(matrix[0]) else False for elem in matrix]):
-            raise Matrix2TupleSizeError(matrix)
+        elif not all([isinstance(elem, tuple) for elem in matrix]):
+            bad_args = [elem for elem in matrix if not isinstance(elem, tuple)]
+            raise Matrix2BadTupleError(bad_args)
+        elif not all([len(elem) == len(matrix[0]) for elem in matrix]):
+            bad_args = [len(elem) for elem in matrix]
+            raise Matrix2TupleSizeError(bad_args)
         else:
             return True
 
@@ -288,10 +289,10 @@ class Matrix2:
 
 
 
-# m1_1 = Matrix1(3, 4, (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
-# m1_2 = Matrix1(3, 3, (1, 2, 3, 4, 5, 6, 7, 8, 9))
-# m2_1 = Matrix2(((1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)))
-# m2_2 = Matrix2(((2, 3, 4), (5, 6, 7), (8, 9, 10)))
+m1_1 = Matrix1(3, 4, (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
+m1_2 = Matrix1(3, 3, (1, 2, 3, 4, 5, 6, 7, 8, 9))
+m2_1 = Matrix2(((1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)))
+m2_2 = Matrix2(((2, 3, 4), (5, 6, 7), (8, 9, 10)))
 
 # stdout:
 # m1_bad = Matrix1(3, 3, (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
@@ -375,7 +376,7 @@ class Matrix2:
 #     raise MatrixBadTupleError2(matrix)
 # MatrixBadTupleError2: Кортеж содержит элементы, не являющиеся кортежами '[8, 'a']'!
 
-# m2_bad3 = Matrix2(((2, 3, 4), (5, 6, 7), (8, 9, 10), (11, 12, 13, 14)))
+m2_bad3 = Matrix2(((2, 3, 4), (5, 6, 7), (8, 9, 10), (11, 12, 13, 14)))
 # Traceback (most recent call last):
 #   File "D:\Step\python\rep\Muhomorov\11.16\1.py", line 314, in <module>
 #     m2_bad3 = Matrix2(((2, 3, 4), (5, 6, 7), (8, 9, 10), (11, 12, 13, 14)))
