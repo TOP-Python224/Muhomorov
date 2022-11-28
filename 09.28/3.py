@@ -7,8 +7,10 @@ def repeat_call(func: Callable) -> Callable:
     def _wrapper(*args, **kwargs):
         # КОММЕНТАРИЙ: плохая идея, упрятать в бесконечный цикл, очень плохая
         # ИСПРАВИТЬ: задание подразумевало повторить один раз — т.е. должно быть два вызова максимум
-        while True:
+        cnt = 2
+        while cnt > 0:
             try:
+                cnt -= 1
                 return func(*args, **kwargs)
             # ИСПОЛЬЗОВАТЬ: вместо неинформативного 'Функция завершена с исключением' намного лучше перехватить конкретный экземпляр исключения и вывести его сообщение (а можно и трассировку)
             except Exception as e:
@@ -23,7 +25,7 @@ def test_func(a: iter) -> int | float:
     return sum(a)
 
 
-print(test_func([1, 2, 3, 4]))
+# print(test_func([1, 2, 3, 4]))
 print(test_func(1))
 
 
