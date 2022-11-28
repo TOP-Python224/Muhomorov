@@ -36,7 +36,7 @@ class Matrix1:
                     self.__data = tuple(matrix)
                 else:
                     # ИСПРАВИТЬ здесь и далее: сообщение, передаваемое в конструктор классов исключений, выводится после двоеточия, поэтому пишется в нижнем регистре и без знаков препинания в конце
-                    raise TypeError('Количество элементов матрицы не соответствует ее размеру!')
+                    raise TypeError('количество элементов матрицы не соответствует ее размеру')
 
     @property
     def rows(self) -> int:
@@ -57,7 +57,7 @@ class Matrix1:
             return True
         else:
             # ИСПРАВИТЬ: не введено, а передано в конструктор
-            raise TypeError('Введено не целое число!')
+            raise TypeError('в конструктор передано не целое число')
 
     @staticmethod
     def __check_matrix(matrix1, matrix2) -> bool:
@@ -66,14 +66,14 @@ class Matrix1:
             if matrix1.rows == matrix2.rows and matrix1.cols == matrix2.cols:
                 return True
             else:
-                raise TypeError('Матрицы разного размера!')
+                raise TypeError('матрицы разного размера')
         else:
             # ИСПРАВИТЬ в сообщении: какой именно аргумент? какого именно класса?
             #  моделируйте ситуацию:
             #      >>> m1 + 'abc'
             #      TypeError: Аргумент не является экземпляром класса!
             #  ничего не понятно
-            raise TypeError('Аргумент не является экземпляром класса!')
+            raise TypeError('второй аргумент не является экземпляром класса Matrix1')
 
     def __add__(self, matrix2) -> Self:
         """Производит поэлементное сложение 2-х матриц."""
@@ -84,7 +84,7 @@ class Matrix1:
                 matrix2.data
             ))
             # КОММЕНТАРИЙ: а если здесь тоже вместо явного имени Matrix1 использовать self.__class__, то код получится более гибким, и его можно будет удобно наследовать
-            return Matrix1(self.rows, self.cols, result)
+            return self.__class__(self.rows, self.cols, result)
 
     def __sub__(self, matrix2) -> Self:
         """Производит поэлементное вычитание 2-х матриц."""
@@ -117,7 +117,6 @@ class Matrix1:
         return result
 
 
-
 class Matrix2:
     """
     Описывает матрицу.
@@ -137,14 +136,16 @@ class Matrix2:
                     max_elem_width = max_row
                 for elem in row:
                     if self.__check_input(elem):
+                        pass
                         # ИСПРАВИТЬ: перезаписывать два одинаковых атрибута столько раз, сколько элементов в матрице — не лучшая идея
-                        self.__rows = len(matrix)
-                        self.__cols = len(matrix[0])
+                    self.__rows = len(matrix)
+                    self.__cols = len(matrix[0])
             self.__max_elem_width = max_elem_width
         # ИСПРАВИТЬ: вы только что записали результат вызова len(matrix) в атрибут, незачем повторно вызывать функцию
-        for i in range(len(matrix)):
+        for i in range(self.__rows):
             # КОММЕНТАРИЙ: здесь вы добавили только частный атрибут, а если хотите добавить защищённый атрибут со включенным механизмом искажения имён, то имя атрибута должно включать имя класса '_Matrix2__row_0' — в объявлении класса к такому атрибуту можно будет обращаться self.__row_0
             setattr(self, '_Hidden__row_' + str(i), matrix[i])
+            # setattr(self, '_Hidden__row_' + str(i), matrix[i])
 
     @property
     def rows(self) -> int:
@@ -164,17 +165,17 @@ class Matrix2:
         if isinstance(number, int):
             return True
         else:
-            raise TypeError('Введено не целое число!')
+            raise TypeError('введено не целое число')
 
     @staticmethod
     def __check_matrix(matrix: tuple) -> bool:
         """Проверяет, является ли введенный аргумент кортежем кортежей правильного размера."""
         if not isinstance(matrix, tuple):
-            raise TypeError('Введенный аргумент не является кортежем!')
+            raise TypeError('введенный аргумент не является кортежем')
         elif not all([True if isinstance(elem, tuple) else False for elem in matrix]):
-            raise TypeError('Кортеж содержит элементы, не являющиеся кортежами!')
+            raise TypeError('кортеж содержит элементы, не являющиеся кортежами')
         elif not all([True if len(elem) == len(matrix[0]) else False for elem in matrix]):
-            raise TypeError('Кортеж содержит кортежи не одинакового размера!')
+            raise TypeError('кортеж содержит кортежи не одинакового размера')
         else:
             return True
 
@@ -185,12 +186,11 @@ class Matrix2:
             if matrix1.rows == matrix2.rows and matrix1.cols == matrix2.cols:
                 return True
             else:
-                raise TypeError('Матрицы разного размера!')
+                raise TypeError('матрицы разного размера')
         else:
-            raise TypeError('Аргумент не является экземпляром класса!')
+            raise TypeError('второй аргумент не является экземпляром класса Matrix2')
 
     # ИСПРАВИТЬ: зачем писать статический метод, который затем вызывать от экземпляра, вручную передавая объект экземпляра?
-    @staticmethod
     def __get_rows(self):
         """Возвращает пару ключ/значение для каждой строки матрицы."""
         # КОММЕНТАРИЙ: любопытный подход
@@ -200,19 +200,19 @@ class Matrix2:
                 yield key, value
 
     # УДАЛИТЬ: так и не понял, зачем реализовали эти два метода — они нигде не использованы
-    def __getitem__(self, item):
-        return getattr(self, item)
-
-    def __getattr__(self, attr):
-        if attr.startswith('row_'):
-            attr = '_Hidden__' + attr
-            return self[attr]
-        else:
-            return None
+    # def __getitem__(self, item):
+    #     return getattr(self, item)
+    #
+    # def __getattr__(self, attr):
+    #     if attr.startswith('row_'):
+    #         attr = '_Hidden__' + attr
+    #         return self[attr]
+    #     else:
+    #         return None
 
     def __str__(self) -> str:
         result = ''
-        for key, value in self.__get_rows(self):
+        for key, value in self.__get_rows():
             centered_row = [
                 str(elem).rjust(self.max_elem_width + 1)
                 for elem in value
@@ -224,7 +224,7 @@ class Matrix2:
         """Производит поэлементное сложение 2-х матриц."""
         result = ()
         if self.__compare_matrix(self, matrix2):
-            for key, value in self.__get_rows(self):
+            for key, value in self.__get_rows():
                 row1 = value
                 row2 = matrix2.__dict__[key]
                 result += tuple(map(lambda a, b: a + b, row1, row2)),
@@ -234,7 +234,7 @@ class Matrix2:
         """Производит поэлементное вычитание 2-х матриц."""
         result = ()
         if self.__compare_matrix(self, matrix2):
-            for key, value in self.__get_rows(self):
+            for key, value in self.__get_rows():
                 row1 = value
                 row2 = matrix2.__dict__[key]
                 result += tuple(map(lambda a, b: a - b, row1, row2)),
@@ -244,7 +244,7 @@ class Matrix2:
         """Производит умножение элементов матрицы на число."""
         result = ()
         if self.__check_input(number):
-            for key, value in self.__get_rows(self):
+            for key, value in self.__get_rows():
                 result += tuple(elem * number for elem in value),
             return Matrix2(result)
 
