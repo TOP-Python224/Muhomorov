@@ -7,13 +7,39 @@ from decimal import Decimal
 local_dir = Path(path[0])
 module_path = local_dir / '1.py'
 spec = spec_from_file_location('university', module_path)
+# ОТВЕТИТЬ: что скрывается за именем tusur? не могу разгадать этот ребус (на самом деле не хочу)
 tusur = module_from_spec(spec)
 modules['university'] = tusur
 spec.loader.exec_module(tusur)
 
-administrator_1 = tusur.Administrator('Семенов', 'Иван', 'Семенович', date(1955, 11, 22), tusur.Person.Gender.M,
-                  tusur.Contact('79131234567', 'semenov@mail.ru', '73831234567', '73831234568', '@Semen', '987654321'),
-                  date(1990, 2, 1), 5, Decimal(45000), 'Декан', 'Мин.обр. РФ', 'Деканат', [])
+
+# ИСПРАВИТЬ: как-то всё это грустно читается, не находите?) как насчёт создать JSON файл(-ы) с соответствующими ключами и значениями, например, с помощью generatedata.com? прочитать все данные, а потом коротко и изящно распаковать полученные словари в конструкторы соответствующих классов; имхо, лучший студент группы может сам проявить такую инициативу =Ъ
+
+# ИСПОЛЬЗОВАТЬ: пример оформления передачи большого количества аргументов, в ситуации, когда иначе не получается
+administrator_1 = tusur.Administrator(
+    'Семенов',
+    'Иван',
+    'Семенович',
+    date(1955, 11, 22),
+    tusur.Person.Gender.M,
+    tusur.Contact(
+        '79131234567',
+        'semenov@mail.ru',
+        '73831234567',
+        '73831234568',
+        '@Semen',
+        '987654321'
+    ),
+    date(1990, 2, 1),
+    5,
+    Decimal(45000),
+    'Декан',
+    # ИСПРАВИТЬ: вообще, декан (руководитель факультета/института) должен быть подотчётен ректору (руководителю университета)
+    'Мин.обр. РФ',
+    'Деканат',
+    []
+)
+# СДЕЛАТЬ: такое количество аргументов неизбежно запутывает — вы должны были об задуматься уже после первого подобного ввода — а значит есть насущная потребность использовать строго ключевые параметры, как минимум для аргументов конструкторов подклассов Person и OrganizationLevel
 
 dormitory_1 = tusur.Dormitory({2021: Decimal(1000)}, 'Общежитие №1', [], '', tusur.Contact(), Decimal(2000), {})
 
@@ -25,18 +51,41 @@ institute_2 = tusur.Institute({2021: Decimal(100000)}, 'ЯГТИ', [], '',
               tusur.Contact('79131234567', 'yagti@mail.ru', '73831234567', '73831234568', '@Yagti', '987654321'),
               Decimal(110000), [])
 
+# КОММЕНТАРИЙ: а ещё, постоянное использование пустых списков/строк/словарей/... должно было навести вас на мысль о значениях по умолчанию в модели
+
 university_1 = tusur.University({2021: Decimal(1000000)}, 'ЯГУ', [], '',
                tusur.Contact('79131234567', 'yagu@mail.ru', '73831234567', '73831234568', '@Yagu', '987654321'),
                Decimal(1100000), [institute_1, institute_2], [dormitory_1])
 
-administrator_2 = tusur.Administrator('Геринг', 'Марта', 'Степановна', date(1975, 11, 13), tusur.Person.Gender.F,
-                  tusur.Contact('79131234567', 'gering@mail.ru', '73831234567', '73831234568', '@Gering', '987654321'),
-                  date(1990, 2, 1), 5, Decimal(45000), 'Ректор', administrator_1, 'Ректорат', [])
+administrator_2 = tusur.Administrator(
+    'Геринг',
+    'Марта',
+    'Степановна',
+    date(1975, 11, 13),
+    tusur.Person.Gender.F,
+    tusur.Contact(
+        '79131234567',
+        'gering@mail.ru',
+        '73831234567',
+        '73831234568',
+        '@Gering',
+        '987654321'
+    ),
+    date(1990, 2, 1),
+    5,
+    Decimal(45000),
+    'Ректор',
+    # КОММЕНТАРИЙ: а вот у ректора, наоборот, нет прямого руководителя внутри университета, поэтому здесь уместно использовать None
+    administrator_1,
+    'Ректорат',
+    []
+)
 
 administrator_3 = tusur.Administrator('Смирнов', 'Игорь', 'Игоревич', date(1959, 9, 22), tusur.Person.Gender.M,
                   tusur.Contact('79131234567', 'igor@mail.ru', '73831234567', '73831234568', '@Igor', '987654321'),
                   date(1990, 2, 1), 5, Decimal(45000), 'Ректор', administrator_1, 'Ректорат', [])
 
+# ИСПРАВИТЬ: Institute — институт, он же факультет, а Department — это кафедра на факультете или институте (допускаю, что есть структуры в которых присутствуют и институты и факультеты, но у нас не так)
 department_1 = tusur.Department({2021: Decimal(1000000)}, 'Факультет информатики', [], '',
                tusur.Contact('79131234567', 'fi@mail.ru', '73831234567', '73831234568', '@FI', '987654321'),
                Decimal(1100000), [])
@@ -92,12 +141,13 @@ group_4 = tusur.Group('Г-1', '', '')
 group_4.change_chief(student_4)
 group_4.change_curator(teacher_2)
 university_1.change_head(administrator_1)
-institute_1.change_head(administrator_2)
-institute_2.change_head(administrator_3)
-department_1.change_head(administrator_2)
-department_2.change_head(administrator_2)
-department_3.change_head(administrator_3)
-department_4.change_head(administrator_3)
+institute_1.change_head([administrator_2, administrator_3])
+print(institute_1.__dict__)
+# institute_2.change_head(administrator_3)
+# department_1.change_head(administrator_2)
+# department_2.change_head(administrator_2)
+# department_3.change_head(administrator_3)
+# department_4.change_head(administrator_3)
 car_driver_1.head = administrator_2
 researcher_1.head = administrator_1
 group_1 += [student_1]
@@ -109,13 +159,14 @@ dormitory_1.checkin_student('1', student_1)
 dormitory_1.checkin_student('1', student_2)
 dormitory_1.checkin_student('2', student_3)
 dormitory_1.checkin_student('3a', student_4)
-print(dormitory_1.rooms)
-print(group_4.__dict__)
-print(university_1.__dict__)
-print(student_1.__dict__)
-print(teacher_2.__dict__)
-print(university_1.__dict__)
-print(tusur.Employee.__dict__)
+# print(dormitory_1.rooms)
+# print(group_4.__dict__)
+# print(university_1.__dict__)
+# print(student_1.__dict__)
+# print(teacher_2.__dict__)
+# print(university_1.__dict__)
+# print(tusur.Employee.__dict__)
+
 
 # stdout:
 # {'1': [Student(surname='Иванов', name='Иван', patronymic='Иванович', birthdate=datetime.date(1977, 1, 25), gender=<Gender.M: 'male'>, contact=Contact(mobile='79141234567', email='ivan@mail.ru', office='74951234567', home='74951234568', telegram='@Ivan', icq='123456789')), Student(surname='Петров', name='Петр', patronymic='Петрович', birthdate=datetime.date(1977, 2, 26), gender=<Gender.M: 'male'>, contact=Contact(mobile='79141234567', email='peter@mail.ru', office='74951234567', home='74951234568', telegram='@Peter', icq='123456789'))], '2': [Student(surname='Николаева', name='Инна', patronymic='Ивановна', birthdate=datetime.date(1977, 3, 27), gender=<Gender.F: 'female'>, contact=Contact(mobile='79141234567', email='inna@mail.ru', office='74951234567', home='74951234568', telegram='@Inna', icq='123456789'))], '3a': [Student(surname='Попова', name='Светлана', patronymic='Петровна', birthdate=datetime.date(1977, 4, 28), gender=<Gender.F: 'female'>, contact=Contact(mobile='79141234567', email='sveta@mail.ru', office='74951234567', home='74951234568', telegram='@Svetlana', icq='123456789'))]}
@@ -125,3 +176,9 @@ print(tusur.Employee.__dict__)
 # {'surname': 'Борисов', 'name': 'Сергей', 'patronymic': 'Ильич', 'birthdate': datetime.date(1964, 11, 22), 'gender': <Gender.M: 'male'>, 'contact': Contact(mobile='79131234567', email='sergey@mail.ru', office='73831234567', home='73831234568', telegram='@Sergey', icq='987654321'), 'hire_date': datetime.date(1988, 10, 10), '_prev_experience': 7, 'salary': Decimal('45000'), 'position': 'Преподаватель', 'head': '', 'degree': <Degree.M: 'MASTER'>, 'courses': ['Python', 'JS'], 'professorship': False}
 # {'_OrganizationLevel__budgets': {2021: Decimal('1000000')}, 'name': 'ЯГУ', '_OrganizationLevel__employees': [], 'head': Administrator(surname='Семенов', name='Иван', patronymic='Семенович', birthdate=datetime.date(1955, 11, 22), gender=<Gender.M: 'male'>, contact=Contact(mobile='79131234567', email='semenov@mail.ru', office='73831234567', home='73831234568', telegram='@Semen', icq='987654321')), 'contact': Contact(mobile='79131234567', email='yagu@mail.ru', office='73831234567', home='73831234568', telegram='@Yagu', icq='987654321'), '_OrganizationLevel__budget': Decimal('1100000'), 'institute': [<university.Institute object at 0x0000021EDD683550>, <university.Institute object at 0x0000021EDD6835D0>], 'dormitories': [<university.Dormitory object at 0x0000021EDD683490>]}
 # {'__module__': 'university', '__doc__': 'Описывает работников.', '__init__': <function Employee.__init__ at 0x0000021EDD686660>, 'experience': <property object at 0x0000021EDD657420>, '__abstractmethods__': frozenset(), '_abc_impl': <_abc._abc_data object at 0x0000021EDD681D40>}
+
+
+# КОММЕНТАРИЙ: скомбинировать объекты согласно модели получилось, но не увидел, чтобы инициализация и использование объектов привели к полезным промежуточным выводам по модели
+
+
+# ИТОГ: хорошо — 8/12
