@@ -1,34 +1,36 @@
-from time import sleep
 from typing import Callable
+from time import sleep
+from sys import stderr
 
 
-def repeat_call(max_calls: int = 3,
-                timeout: int = 1,
-                interception_last: bool = True,) -> Callable:
+def repeat_call(*,
+                max_calls: int = 2,
+                timeout: float = 1,
+                raise_last_exception: bool = False,) -> Callable:
     """Повторно, с заданной задержкой, заданное количество раз, вызывает декорируемую функцию в случае ее завершения с исключением.
-    :param max_calls: количество вызовов функции,
-    :param timeout: время между вызовами функции,
-    :param interception_last: перехватывать/не перехватывать последнее исключение.
+    :param max_calls: максимальное количество попыток вызвать функцию,
+    :param timeout: время между вызовами,
+    :param raise_last_exception: выбрасывать (True) или нет исключение, если все вызовы завершились неудачей.
     """
     def _decorator(func: Callable):
         def _wrapper(*args, **kwargs):
-            # ИСПОЛЬЗОВАТЬ: чем вам так условный цикл здесь дался, фиксированное же количество вызовов
-            calls_cnt = 1
-            while calls_cnt <= max_calls:
+            for calls_cnt in range(max_calls):
                 try:
-                    calls_cnt += 1
                     return func(*args, **kwargs)
                 except Exception as e:
-                    print(e)
+                    # для сохранения объекта исключения за пределами локального пространства имён блока except
+                    last_exception = e
+                    print(f"{e.__class__.__name__}: {e!s}", file=stderr)
                     sleep(timeout)
-                    if calls_cnt == max_calls and not interception_last:
-                        return func(*args, **kwargs)
-            # СДЕЛАТЬ: но раз так хочется большей универсальности — инициатива наказуема — пишите теперь здесь, вместо обычного, параметризуемый декоратор, в который передаётся максимальное количество вызовов (2 по умолчанию), таймаут между вызовами (1 секунда по умолчанию) и логический ключ "перехватывать/не перехватывать последнее исключение" (True по умолчанию)
+            else:
+                if raise_last_exception:
+                    ending = 's' if max_calls != 1 else ''
+                    raise Exception(f"{func.__name__} fails {max_calls} time{ending}") from last_exception
         return _wrapper
     return _decorator
 
 
-@repeat_call(max_calls=5, timeout=1, interception_last=False)
+@repeat_call(max_calls=5, timeout=0.5, raise_last_exception=True)
 def test_func(a: iter) -> int | float:
     """Возвращает сумму элементов принятого итерируемого объекта."""
     return sum(a)
@@ -97,4 +99,4 @@ print(test_func(1))
 # KeyboardInterrupt
 
 
-# ИТОГ: ждём с нетерпением — 4/6
+# ИТОГ: хорошо — 4/6
