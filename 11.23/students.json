@@ -1,0 +1,107 @@
+[
+	{
+		"surname": "Woodward",
+		"name": "Myra",
+		"patronymic": "Kessie",
+		"birthdate": "2001-09-29",
+		"gender": "MALE",
+		"contact": 
+		{
+		"mobile": "78894744145",
+		"email": "dapibus.quam.quis@google.org",
+		"office": "71837877517",
+		"home": "73158612717",
+		"telegram": "@Kzohbehc",
+		"icq": "717921103"
+		},
+		"speciality": "IT",
+		"form": "INTRAMURAL",
+		"contract": "PERSONAL",
+		"year": 1,
+		"grant": 1000
+	},
+	{
+		"surname": "Livingston",
+		"name": "Shad",
+		"patronymic": "Chaney",
+		"birthdate": "2001-09-13",
+		"gender": "MALE",
+		"contact": 
+		{
+		"mobile": "73745512513",
+		"email": "est.vitae@google.org",
+		"office": "70562156256",
+		"home": "79794772957",
+		"telegram": "@Bkwgfgcb",
+		"icq": "711937749"
+		},
+		"speciality": "IT",
+		"form": "EXSTRAMURAL",
+		"contract": "BUDGET",
+		"year": 1,
+		"grant": 1000
+	},
+	{
+		"surname": "Gardner",
+		"name": "Cally",
+		"patronymic": "Hop",
+		"birthdate": "2002-07-21",
+		"gender": "FEMALE",
+		"contact": 
+		{
+		"mobile": "74622503369",
+		"email": "pede.malesuada@google.edu",
+		"office": "77582862244",
+		"home": "73154406284",
+		"telegram": "@Vnqmgpbe",
+		"icq": "331594858"
+		},
+		"speciality": "IT",
+		"form": "REMOTE",
+		"contract": "COMPANY",
+		"year": 1,
+		"grant": 1000
+	},
+	{
+		"surname": "Cruz",
+		"name": "Mohammad",
+		"patronymic": "Chaney",
+		"birthdate": "2001-06-02",
+		"gender": "FEMALE",
+		"contact": 
+		{
+		"mobile": "71447287237",
+		"email": "curae@google.net",
+		"office": "71016496745",
+		"home": "78731179478",
+		"telegram": "@Dhejoryk",
+		"icq": "870623150"
+		},
+		"speciality": "IT",
+		"form": "INTRAMURAL",
+		"contract": "PERSONAL",
+		"year": 1,
+		"grant": 1000
+	},
+	{
+		"surname": "Berry",
+		"name": "Leslie",
+		"patronymic": "Beverly",
+		"birthdate": "2002-05-08",
+		"gender": "MALE",
+		"contact": 
+		{
+		"mobile": "76832676455",
+		"email": "pede.ac@yahoo.com",
+		"office": "75370412535",
+		"home": "77483542652",
+		"telegram": "@Ifygvpbo",
+		"icq": "247483235"
+		},
+		"speciality": "IT",
+		"form": "EXSTRAMURAL",
+		"contract": "BUDGET",
+		"year": 1,
+		"grant": 1000
+	}
+]

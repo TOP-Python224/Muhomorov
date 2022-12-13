@@ -1,0 +1,117 @@
+[
+	{
+		"surname": "Hall",
+		"name": "Grace",
+		"patronymic": "Basil",
+		"birthdate": "1979-01-06",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "43822586464",
+		"email": "lectus.rutrum@google.com",
+		"office": "99488286773",
+		"home": "56088960310",
+		"telegram": "@Rqzveijj",
+		"icq": "368773270"
+		},
+		"_prev_experience": 1,
+		"salary": 10000,
+		"position": "administrator",
+		"head": "None",
+		"hire_date": "2019-10-22",
+		"division": "",
+		"subordinates": "[]"
+	},
+	{
+		"surname": "Drake",
+		"name": "Yen",
+		"patronymic": "Caesar",
+		"birthdate": "1975-06-10",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "37711327647",
+		"email": "pede.praesent@google.com",
+		"office": "97693546217",
+		"home": "81183026249",
+		"telegram": "@Ygnxqvpe",
+		"icq": "257750551"
+		},
+		"_prev_experience": 7,
+		"salary": 10000,
+		"position": "administrator",
+		"head": "",
+		"hire_date": "2020-08-24",
+		"division": "",
+		"subordinates": "[]"
+	},
+	{
+		"surname": "Michael",
+		"name": "Miriam",
+		"patronymic": "Hilel",
+		"birthdate": "1977-08-20",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "35632124094",
+		"email": "pretium.et@outlook.ca",
+		"office": "88771231569",
+		"home": "43415546315",
+		"telegram": "@Orguxqhc",
+		"icq": "458619466"
+		},
+		"_prev_experience": 1,
+		"salary": 10000,
+		"position": "administrator",
+		"head": "",
+		"hire_date": "2023-07-25",
+		"division": "",
+		"subordinates": "[]"
+	},
+	{
+		"surname": "Higgins",
+		"name": "Carolyn",
+		"patronymic": "Jolene",
+		"birthdate": "1977-05-25",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "16054675006",
+		"email": "cursus.vestibulum.mauris@protonmail.org",
+		"office": "43727383251",
+		"home": "66671754834",
+		"telegram": "@Mbgzfrye",
+		"icq": "144055182"
+		},
+		"_prev_experience": 0,
+		"salary": 10000,
+		"position": "administrator",
+		"head": "",
+		"hire_date": "2018-11-19",
+		"division": "",
+		"subordinates": "[]"
+	},
+	{
+		"surname": "Johnson",
+		"name": "Chandler",
+		"patronymic": "Reuben",
+		"birthdate": "1967-12-19",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "78397128841",
+		"email": "sed.molestie@icloud.ca",
+		"office": "33549527857",
+		"home": "45175107477",
+		"telegram": "@Suwwdbod",
+		"icq": "567921769"
+		},
+		"_prev_experience": 7,
+		"salary": 10000,
+		"position": "administrator",
+		"head": "",
+		"hire_date": "2018-03-27",
+		"division": "",
+		"subordinates": "[]"
+	}
+]

@@ -1,0 +1,112 @@
+[
+	{
+		"surname": "Rutledge",
+		"name": "Maya",
+		"patronymic": "Rogan",
+		"birthdate": "1968-04-26",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "50121976165",
+		"email": "adipiscing@icloud.edu",
+		"office": "63372669787",
+		"home": "41872760537",
+		"telegram": "@Uqijxkvf",
+		"icq": "380558055"
+		},
+		"_prev_experience": 6,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2020-05-22",
+		"degree": "BACHELOR"
+	},
+	{
+		"surname": "Boyd",
+		"name": "Meghan",
+		"patronymic": "Wade",
+		"birthdate": "1967-04-08",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "55524335542",
+		"email": "aliquam.erat@aol.net",
+		"office": "75234260063",
+		"home": "84165579543",
+		"telegram": "@Rcllnsev",
+		"icq": "589319915"
+		},
+		"_prev_experience": 1,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2023-04-04",
+		"degree": "SPECIALIST"
+	},
+	{
+		"surname": "Velez",
+		"name": "Melinda",
+		"patronymic": "Aurora",
+		"birthdate": "1971-11-20",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "84167521125",
+		"email": "mus.aenean@google.ca",
+		"office": "54396511739",
+		"home": "63748347431",
+		"telegram": "@Xtcmivgu",
+		"icq": "757463288"
+		},
+		"_prev_experience": 8,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2023-08-23",
+		"degree": "MASTER"
+	},
+	{
+		"surname": "Chandler",
+		"name": "Hilel",
+		"patronymic": "Eve",
+		"birthdate": "1978-10-26",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "81868471244",
+		"email": "massa.non@yahoo.edu",
+		"office": "57258691809",
+		"home": "82347924186",
+		"telegram": "@Hcehxfeq",
+		"icq": "434088280"
+		},
+		"_prev_experience": 9,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2020-08-12",
+		"degree": "CANDIDATE"
+	},
+	{
+		"surname": "Wolfe",
+		"name": "Garrison",
+		"patronymic": "Odette",
+		"birthdate": "1974-01-01",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "35107455591",
+		"email": "risus.a@outlook.net",
+		"office": "29383129044",
+		"home": "33833278435",
+		"telegram": "@Zgrwzrbe",
+		"icq": "598866408"
+		},
+		"_prev_experience": 3,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2017-10-06",
+		"degree": "DOCTOR"
+	}
+]

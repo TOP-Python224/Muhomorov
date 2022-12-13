@@ -1,0 +1,107 @@
+[
+	{
+		"surname": "Wood",
+		"name": "Ross",
+		"patronymic": "Hunter",
+		"birthdate": "1974-04-24",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "63640065772",
+		"email": "velit.quisque@outlook.ca",
+		"office": "83520421422",
+		"home": "39852887562",
+		"telegram": "@Ydnbbhef",
+		"icq": "258425372"
+		},
+		"prev_experience": 7,
+		"salary": 10000,
+		"position": "driver",
+		"head": "",
+		"hire_date": "2018-03-19"
+	},
+	{
+		"surname": "Carney",
+		"name": "Yuli",
+		"patronymic": "Kevyn",
+		"birthdate": "1972-08-11",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "87553625751",
+		"email": "hendrerit.a@aol.org",
+		"office": "24848658869",
+		"home": "48804749171",
+		"telegram": "@Bttxbkpt",
+		"icq": "614120647"
+		},
+		"prev_experience": 8,
+		"salary": 10000,
+		"position": "cleaner",
+		"head": "",
+		"hire_date": "2021-06-22"
+	},
+	{
+		"surname": "Cherry",
+		"name": "Zelda",
+		"patronymic": "Michael",
+		"birthdate": "1971-07-22",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "85774161012",
+		"email": "non.leo@hotmail.couk",
+		"office": "92776727722",
+		"home": "31161448145",
+		"telegram": "@Qamgmsoi",
+		"icq": "489657258"
+		},
+		"prev_experience": 6,
+		"salary": 10000,
+		"position": "driver",
+		"head": "",
+		"hire_date": "2019-03-01"
+	},
+	{
+		"surname": "Russo",
+		"name": "Felix",
+		"patronymic": "Illiana",
+		"birthdate": "1980-05-06",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "45946837004",
+		"email": "vehicula.aliquet@aol.org",
+		"office": "33940558407",
+		"home": "31571055298",
+		"telegram": "@Tjohscpz",
+		"icq": "588065498"
+		},
+		"prev_experience": 4,
+		"salary": 10000,
+		"position": "cleaner",
+		"head": "",
+		"hire_date": "2020-08-23"
+	},
+	{
+		"surname": "Lowe",
+		"name": "Kellie",
+		"patronymic": "Colin",
+		"birthdate": "1972-08-08",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "20101458471",
+		"email": "tellus.non@aol.couk",
+		"office": "44473736256",
+		"home": "27612196056",
+		"telegram": "@Xahvocue",
+		"icq": "874242728"
+		},
+		"prev_experience": 5,
+		"salary": 10000,
+		"position": "driver",
+		"head": "",
+		"hire_date": "2022-12-19"
+	}
+]

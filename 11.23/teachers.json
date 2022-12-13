@@ -1,0 +1,122 @@
+[
+	{
+		"surname": "Mcleod",
+		"name": "Leila",
+		"patronymic": "Lavinia",
+		"birthdate": "1978-06-28",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "97443445671",
+		"email": "venenatis.a.magna@outlook.org",
+		"office": "72768814746",
+		"home": "21860361831",
+		"telegram": "@Cnwivtpq",
+		"icq": "664684335"
+		},
+		"_prev_experience": 3,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2018-04-19",
+		"degree": "BACHELOR",
+		"courses": "['Python', 'JS']",
+		"professorship": "False"
+	},
+	{
+		"surname": "Gaines",
+		"name": "Bryar",
+		"patronymic": "Hadley",
+		"birthdate": "1971-10-11",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "72408138375",
+		"email": "quam.pellentesque@hotmail.org",
+		"office": "26868164679",
+		"home": "86671311713",
+		"telegram": "@Euuciwjr",
+		"icq": "200730881"
+		},
+		"_prev_experience": 8,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2023-02-19",
+		"degree": "SPECIALIST",
+		"courses": "['Python', 'JS']",
+		"professorship": "False"
+	},
+	{
+		"surname": "Whitaker",
+		"name": "Jessica",
+		"patronymic": "Gabriel",
+		"birthdate": "1969-06-04",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "21585728557",
+		"email": "luctus.lobortis@google.net",
+		"office": "89353588926",
+		"home": "18027832810",
+		"telegram": "@Ajccphos",
+		"icq": "740121173"
+		},
+		"_prev_experience": 6,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2019-06-17",
+		"degree": "MASTER",
+		"courses": "['Python', 'JS']",
+		"professorship": "False"
+	},
+	{
+		"surname": "Kinney",
+		"name": "Jackson",
+		"patronymic": "Ralph",
+		"birthdate": "1966-12-18",
+		"gender": "FEMALE",
+		"contact":
+		{
+		"mobile": "88241503246",
+		"email": "fusce.mollis@hotmail.com",
+		"office": "21119750072",
+		"home": "13861955717",
+		"telegram": "@Hikkgrre",
+		"icq": "278379072"
+		},
+		"_prev_experience": 3,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2016-09-07",
+		"degree": "CANDIDATE",
+		"courses": "['Python', 'JS']",
+		"professorship": "False"
+	},
+	{
+		"surname": "Irwin",
+		"name": "Castor",
+		"patronymic": "Chase",
+		"birthdate": "1968-01-08",
+		"gender": "MALE",
+		"contact":
+		{
+		"mobile": "33819414933",
+		"email": "varius.nam@aol.ca",
+		"office": "57726328046",
+		"home": "24156110166",
+		"telegram": "@Uqxqoauw",
+		"icq": "739275275"
+		},
+		"_prev_experience": 2,
+		"salary": 10000,
+		"position": "teacher",
+		"head": "",
+		"hire_date": "2016-12-30",
+		"degree": "DOCTOR",
+		"courses": "['Python', 'JS']",
+		"professorship": "True"
+	}
+]
