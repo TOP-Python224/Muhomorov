@@ -7,8 +7,9 @@ class HTMLTag:
 
     def __init__(self, name: str, value: str = '', **kwargs):
         self.name = name
+        # ИСПОЛЬЗОВАТЬ: пример того, как с помощью реорганизации формирования строки избежать лишней проверки
+        self.tag_attrs = ''.join([f' {k}="{v}"' for k, v in kwargs.items()])
         self.value = value
-        self.tag_attrs = ' '.join([f'{k}="{v}"' for k, v in kwargs.items()])
         self.__nested: list[HTMLTag] = []
 
     @property
@@ -25,10 +26,11 @@ class HTMLTag:
         """Рекурсивно формирует строку с текущим и всеми вложенными тегами."""
         margin = ' ' * indent_level * self.default_indent_spaces
         eol = ''
-        result = f"{margin}<{self.name}" \
-                 f"{' ' if self.tag_attrs else ''}" \
-                 f"{self.tag_attrs}>" \
-                 f"{self.value}"
+        result = (f"{margin}<{self.name}"
+                  # ИСПОЛЬЗОВАТЬ: вот эта проверка на самом деле не нужна
+                  # f"{' ' if self.tag_attrs else ''}"
+                  f"{self.tag_attrs}>"
+                  f"{self.value}")
         if self.__nested:
             for tag in self.__nested:
                 result += '\n' + tag.__str(indent_level+1)
@@ -74,6 +76,7 @@ class HTMLBuilder:
 
 
 root = HTMLTag.create('div', id='bottom')
+# ДОБАВИТЬ: многие HTML теги используют атрибут class, а в python это слово является зарезервированным — как с помощью строителя создать экземпляр HTMLTag с атрибутом class?
 root.sibling('p', 'Menu', id='main', section='top')\
     .nested('ul', section='middle')\
     .sibling('li', 'File', style='modern')\
@@ -82,7 +85,8 @@ root.sibling('p', 'Menu', id='main', section='top')\
 div = root.build()
 print(div)
 
-# Stdout:
+
+# stdout:
 # <div id="bottom">
 #   <p id="main" section="top">Menu</p>
 #   <ul section="middle">
@@ -91,3 +95,6 @@ print(div)
 #     <li>View</li>
 #   </ul>
 # </div>
+
+
+# ИТОГ: очень хорошо — 3/3

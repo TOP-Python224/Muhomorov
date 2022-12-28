@@ -3,7 +3,7 @@ from typing import Self
 
 class ClassBuilder:
     """Класс Строитель для формирования текста кода класса с конструктором или без."""
-    indent: int = 4 * ' '
+    indent: int = 4*' '
     constructor: str = 'def __init__(self):'
     default_plug: str = 'pass'
     field: str = ''
@@ -17,6 +17,7 @@ class ClassBuilder:
                   value: str = '""') -> Self:
         """Добавляет поле в шаблон класса и возвращает текущий строитель."""
         self.result = self.result.replace(self.default_plug, self.constructor)
+        # ДОБАВИТЬ: строковые литералы должны отображаться в кавычках (см. вывод ниже)
         self.field = f"{self.indent*2}{name} = {value}\n"
         self.result += self.field
         return self
@@ -26,15 +27,16 @@ class ClassBuilder:
 
 
 mc = ClassBuilder('MyClass')
-mc.add_field('x', '10').add_field('y', '20').add_field('z', '30')
+mc.add_field('x', '10').add_field('y', 'тестовая строка').add_field('z', '30')
 print(mc)
 
-# Stdout:
-# class MyClass:
-#     pass
-#
+
+# stdout:
 # class MyClass:
 #     def __init__(self):
 #         x = 10
-#         y = 20
+#         y = тестовая строка
 #         z = 30
+
+
+# ИТОГ: хорошо — 4/5

@@ -3,17 +3,6 @@ from datetime import time
 from decimal import Decimal as dec
 
 
-class FilmCard:
-    """Определяет карточку фильма с минимальным количеством атрибутов."""
-    def __init__(self, name: str, country: str, year: int):
-        self.name = name
-        self.country = country
-        self.year = year
-
-    def __str__(self):
-        return FilmFactory.print_movie(self)
-
-
 class Genre(Enum):
     FANTASTIC = 'Фантастика'
     THRILLER = 'Триллер'
@@ -30,15 +19,33 @@ class Awards(Enum):
     UNDEFINED = ''
 
 
+class FilmCard:
+    """Определяет карточку фильма с минимальным количеством атрибутов."""
+    def __init__(self, name: str, country: str, year: int):
+        self.name = name
+        self.country = country
+        self.year = year
+        # ДОБАВИТЬ: атрибуты экземпляра, объявленные в FilmFactory.create_movie()
+
+    def __str__(self):
+        # ОТВЕТИТЬ: чем-то аргументируется решение по конструированию строкового представления в фабрике или просто так захотелось?)
+        return FilmFactory.print_movie(self)
+
+
 class FilmFactory:
     """Фабрика для создания, редактирования и вывода экземпляров класса FilmCard."""
     def __init__(self):
         self.movies_db = []
 
+    # КОММЕНТАРИЙ: конструктор фабрики вполне может быть весьма объёмным, особенно для классов данных (каковым и является FilmCard)
+    # КОММЕНТАРИЙ: на практике мы практически никогда не передаём аргументы конструкторам в виде литералов (вспомните задачу 2 из 11.23) — почти всегда это будет получение данных от других функций/методов: из файла или БД или по URL — а значит данные уже будут структурированы тем или иным образом, см. например возвращаемое значение от API Кинопоиска: https://clck.ru/339bpR (Response 200 Show)
+    # ИСПРАВИТЬ: таким образом, одной из задач фабрики часто бывает обработка полученной из внешних источников структуры данных с целью их преобразования для конструктора и атрибутов формируемого фабрикой экземпляра
     def create_movie(self, name, country, year) -> FilmCard:
         """Создает и возвращает экземпляр класса FilmCard."""
         movie = FilmCard(name, country, year)
+        # УДАЛИТЬ: ничего не мешает объявить эти атрибуты в конструкторе FilmCard — именно так и следует сделать
         movie.genre = Genre.UNDEFINED
+        # ИСПРАВИТЬ: в таких случаях, когда необходимо создать атрибут, но работать с ним предполагается позже, намного эффективнее присвоить в атрибут None — обычно это оказывается полезным для дальнейшей проверки атрибутов, так как attr is None отличается от bool(attr)
         movie.length = 0
         movie.cache = 0
         movie.age_limit = 0
@@ -48,7 +55,10 @@ class FilmFactory:
         self.movies_db += [movie]
         return movie
 
+    # УДАЛИТЬ: все эти методы содержательно относятся скорее к шаблону Строитель, а не Фабрика
+
     @staticmethod
+    # ИСПРАВИТЬ здесь и далее: не add, а set
     def add_genre(movie: FilmCard, genre: Genre):
         """Устанавливает значение атрибута жанр. """
         movie.genre = genre
@@ -69,7 +79,9 @@ class FilmFactory:
         movie.age_limit = age_limit
 
     @staticmethod
+    # КОММЕНТАРИЙ: а вот здесь именно add
     def add_actor(movie: FilmCard, actor: str):
+        # ИСПРАВИТЬ: значит не Устанавливает, а Добавляет
         """Устанавливает значение атрибута актеры. """
         movie.actors += [actor]
 
@@ -98,9 +110,17 @@ class FilmFactory:
                f"Награды: {movie.awards.value}\n"
 
 
+# СДЕЛАТЬ: если не получается просто, давайте немного усложним задачу, чтобы вы лучше прочувствовали смысл фабрики
+#  - напишите дополнительный класс Actor с полями name и surname
+#  - в классе FilmCard должен быть атрибут actors: list[Actor]
+#  - в конструктор фабрики для актёров должны передаваться строки формата "<имя> <фамилия>"
+#  таким образом, фабрика должна будет в процессе инициализации экземпляра FilmCard ещё создать экземпляр(-ы) Actor
+#  а данные для фабрики давайте уже традиционно поместим в JSON файл
+
 cinema_center = FilmFactory()
 
 terminator1 = cinema_center.create_movie('Терминатор', 'США', 1985)
+# КОММЕНТАРИЙ: дальнейшее как-то слишком уж похоже на строитель, не находите?) пошаговый подход — прерогатива именно строителя, фабрика же больше про "штамповку", т.е. создание объекта за один явный шаг
 cinema_center.add_actor(terminator1, 'Арнольд Шварценеггер')
 cinema_center.add_actor(terminator1, 'Линда Хэмилтон')
 cinema_center.add_producer(terminator1, 'Джеймс Кэмерон')
@@ -133,6 +153,7 @@ for movie in cinema_center.movies_db:
 for movie in cinema_center.movies_db:
     if movie.awards.value == 'Оскар':
         print(movie)
+
 
 # stdout:
 # Наименование: Гравитация
@@ -179,3 +200,5 @@ for movie in cinema_center.movies_db:
 # Режиссер: []
 # Награды: Оскар
 
+
+# ИТОГ: хорошая попытка, жду следующую =) — 3/8
