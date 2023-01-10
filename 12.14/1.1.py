@@ -1,11 +1,5 @@
 import re
 
-dirty_text = """
-У нас есть две системы для работы с текстом!
-У  есть  системы  работы  текстом@
-У две  работы с !#
-"""
-
 
 class TextParser:
     """Парсер текстовых данных в некой системе."""
@@ -45,17 +39,29 @@ class WordCounter:
 class Adapter:
     """Адаптер для использования методов счетчика в парсере."""
 
+    # ДОБАВИТЬ: аннотации типов параметров для всех методов и возвращаемых значений для не встроенных методов — это особенно важно для структурных классов
+
     def __init__(self, adapted):
         self.adapted = adapted
 
     def process_text(self, text):
         """Вызывает методы счетчика, и передает результат в парсер."""
         self.adapted.__init__(text)
-        result = self.adapted.get_all_words()
-        return sorted(result, key=lambda word: self.adapted.get_count(word), reverse=True)
+        # ИСПОЛЬЗОВАТЬ: очевидные имена идентификаторов
+        words_rate = self.adapted.get_all_words()
+        return sorted(words_rate, key=lambda word: self.adapted.get_count(word), reverse=True)
 
+
+dirty_text = """
+У нас есть две системы для работы с текстом!
+У  есть  системы  работы  текстом@
+У две  работы с !#
+"""
 
 parser = TextParser(dirty_text)
 counter = WordCounter('')
 adapter = Adapter(counter)
 parser.get_processed_text(adapter)
+
+
+# ИТОГ: очень хорошо — 5/6
