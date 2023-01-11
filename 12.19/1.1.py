@@ -1,12 +1,8 @@
-"""У вас есть класс File.
-Допишите реализацию класса Folder таким образом, чтобы функция ls() могла принимать на вход
-экземпляры обоих классов."""
-
 from dataclasses import dataclass
 
 import os
 
-# os.name = 'linux'
+
 if os.name == 'nt':
     PATH_SEP = '\\'
 else:
@@ -32,15 +28,21 @@ class Folder(list):
     def __init__(self, folder: str):
         super().__init__()
         self.folder = folder
+
+        # УДАЛИТЬ: здесь не нужна привязка к реальной файловой системе
         for root, dirs, files in os.walk(self.folder):
             for file in files:
                 self.append(f"{root}{PATH_SEP}{file}")
+
+    # КОММЕНТАРИЙ: это задание на шаблон Компоновщик — подумайте в этом контексте
+
+    # ДОБАВИТЬ: свой метод и/или переопределение встроенного — для добавления объектов к каталогу
 
     def ls(self) -> str:
         return '\n'.join(self)
 
 
-def ls(*objects: File | Folder, end='\n') -> str:
+def ls(*objects: File | Folder, end='\n') -> None:
     for obj in objects:
         print(obj.ls(), end)
 
@@ -51,7 +53,9 @@ d1 = Folder('d:\\test_1')
 d2 = Folder('d:\\test_2')
 ls(f1, f2, d1, d2)
 
-# Stdout:
+
+# stdout:
+
 # d:\test_1\text_1.txt
 #
 # d:\test_2\text_2.txt
@@ -67,3 +71,6 @@ ls(f1, f2, d1, d2)
 # d:\test_2\test_1\text_3.txt
 # d:\test_2\test_2\text_4.txt
 # d:\test_2\test_2\test_3\text_5.txt
+
+
+# ИТОГ: выполнить работу над ошибками — 2/6

@@ -161,7 +161,8 @@ class HTMLManager:
 
     def squeeze(self) -> str:
         """Удаляет все символы пространства между тегами, а также пустые теги."""
-        return self.parser.delete_eol().delete_empty().__dict__['html']
+        # ИСПОЛЬЗОВАТЬ: операцию атрибуции
+        return self.parser.delete_eol().delete_empty().html
 
     def del_tags(self, *tags: str) -> str:
         """Удаляет заданные тег/теги."""
@@ -171,10 +172,11 @@ class HTMLManager:
         """Удаляет заданные атрибут/атрибуты."""
         return self.parser.delete_attrs(*attrs, all=del_all).__dict__['html']
 
+    # КОММЕНТАРИЙ: очень хорошо
     def add_indent(self) -> HTMLTag:
         """Добавляет символы пространства для формирования отступов вложенных тегов."""
         tags_lst = []
-        html = self.parser.add_eol(before_value=True).__dict__['html'].lstrip('\n')
+        html = self.parser.add_eol(before_value=True).html.lstrip('\n')
         tags = html.split('\n\n')
         root_tag = tags[0].strip('(<,>)')
         for tag in tags[1:]:
@@ -191,8 +193,10 @@ class HTMLManager:
                 else:
                     tags_lst.append(f"root{res}")
         root = HTMLTag.create(root_tag, '')
+        # КОММЕНТАРИЙ: хотя я и предполагал, что вы будете пошагово работать строителем в самом методе — это тоже красиво =)
         for t in tags_lst:
             exec(t)
+        # КОММЕНТАРИЙ: но имейте в виду на будущее, что для динамически формируемого и выполняемого кода чертовски сложно проводить тестирование и отладку — именно поэтому профессиональные разработчики не увлекаются такими конструкциями
         return root.build()
 
 
@@ -247,3 +251,7 @@ print(t1)
 # </div>
 
 
+# КОММЕНТАРИЙ: вот вам и будни проф.разработчика — куча кода, который так и зудит переписать, но это не твоя задача, а твоя задача заключается в том, чтобы собрать кучу не твоего кода в твоё собственное работающее нечто =) вы справились очень даже хорошо, я считаю
+
+
+# ИТОГ: отлично — 8/8
