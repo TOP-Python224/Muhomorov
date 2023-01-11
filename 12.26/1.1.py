@@ -1,12 +1,3 @@
-"""У вас есть класс, в котором находится несколько методов, вызов которых вы хотите контролировать.
-
-Спроектируйте и реализуйте модель классов по шаблону Команда, обеспечивающих следующую функциональность:
-    1) хранение истории операций
-    2) отмена последних операций
-    3) повторного выполнения отменённых операций
-
-Продемонстрируйте на тестовом классе ниже:"""
-
 from random import randrange as rr, choice as ch
 from string import ascii_lowercase as alc
 from datetime import datetime as dt
@@ -66,6 +57,7 @@ class TestCommand:
 
     def execute(self, redo: bool = False) -> None:
         action = ['POP', 'REDO']
+        # КОММЕНТАРИЙ: докопались значит до этой конструкции..)) имейте в виду, она пока в обсуждении: баг-трекер и dev версии python завалены дискуссиями — меняться будет точно
         match self.method:
             case 'print_msg':
                 pop_elem = self.case.print_msg()
@@ -120,6 +112,7 @@ class TestCommand:
 # tc1.undo()
 # tc1.undo()
 # print(*TestLogger.log, sep='\n')
+
 
 # stdout:
 # 15

@@ -98,15 +98,16 @@ class CodeBadGatewayChecker(CodeChecker):
             super().handle()
 
 
-# ws = WebServer()
-# answer = ws.get()
-# cc = CodeChecker(answer)
-# cc.add_checker(CodeOkChecker(answer))
-# cc.add_checker(CodeMovedPermChecker(answer))
-# cc.add_checker(CodeForbiddenChecker(answer))
-# cc.add_checker(CodeNotFoundChecker(answer))
-# cc.add_checker(CodeBadGatewayChecker(answer))
-# cc.handle()
+ws = WebServer()
+answer = ws.get()
+cc = CodeChecker(answer)
+cc.add_checker(CodeOkChecker(answer))
+cc.add_checker(CodeMovedPermChecker(answer))
+cc.add_checker(CodeForbiddenChecker(answer))
+cc.add_checker(CodeNotFoundChecker(answer))
+cc.add_checker(CodeBadGatewayChecker(answer))
+cc.handle()
+
 
 # stdout:
 # CodeForbiddenChecker - 403
