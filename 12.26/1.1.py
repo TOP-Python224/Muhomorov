@@ -1,6 +1,6 @@
+from datetime import datetime as dt
 from random import randrange as rr, choice as ch
 from string import ascii_lowercase as alc
-from datetime import datetime as dt
 
 
 class TestCase:
@@ -15,8 +15,10 @@ class TestCase:
             for _ in range(1000)
         ]
         # ... другие поля?
-        self.dict_ = dict(zip((k for k in range(1000)),
-                              (rr(100, 1000) for _ in range(1000))))
+        self.dict_ = dict(zip(
+            (k for k in range(1000)),
+            (rr(100, 1000) for _ in range(1000))
+        ))
 
     def print_msg(self):
         msg = self.messages.pop()
@@ -44,6 +46,11 @@ class TestLogger:
         cls.log.append(data)
 
 
+# ИСПОЛЬЗОВАТЬ: собственные исключения для команды
+class CommandError(Exception):
+    pass
+
+
 class TestCommand:
     """Команда."""
     def __init__(self, case: TestCase, method: str):
@@ -56,17 +63,22 @@ class TestCommand:
         TestLogger.append_data(f"{dt.now():%Y-%m-%d %H:%M:%S} - {self.method} - {pop_elem} - {action}")
 
     def execute(self, redo: bool = False) -> None:
-        action = ['POP', 'REDO']
+        action = ('POP', 'REDO')
         # КОММЕНТАРИЙ: докопались значит до этой конструкции..)) имейте в виду, она пока в обсуждении: баг-трекер и dev версии python завалены дискуссиями — меняться будет точно
-        match self.method:
-            case 'print_msg':
-                pop_elem = self.case.print_msg()
-            case 'sum_nums':
-                pop_elem = self.case.sum_nums()
-            case 'sum_digits':
-                pop_elem = self.case.sum_digits()
-            case _:
-                raise TypeError('unknown command')
+        # match self.method:
+        #     case 'print_msg':
+        #         pop_elem = self.case.print_msg()
+        #     case 'sum_nums':
+        #         pop_elem = self.case.sum_nums()
+        #     case 'sum_digits':
+        #         pop_elem = self.case.sum_digits()
+        #     case _:
+        #         raise TypeError('unknown command')
+        # ИСПОЛЬЗОВАТЬ: если обрабатываете имена идентификаторов, то лучше использовать встроенную функцию getattr()
+        try:
+            pop_elem = getattr(self.case, self.method)()
+        except AttributeError:
+            raise CommandError('unknown command')
         self.pop_list.append(pop_elem)
         self.__log(pop_elem, action[redo])
 
@@ -135,3 +147,6 @@ class TestCommand:
 # 2023-01-07 18:15:59 - sum_digits - (997, 674) - UNDO
 # 2023-01-07 18:15:59 - sum_digits - (998, 905) - UNDO
 # 2023-01-07 18:15:59 - sum_digits - (999, 690) - UNDO
+
+
+# ИТОГ: отлично — 7/7

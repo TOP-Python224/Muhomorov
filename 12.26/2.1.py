@@ -1,12 +1,12 @@
 from abc import ABC
+from enum import Enum
 from random import choice
 from typing import Optional
 from typing import Self
-from enum import Enum
 
 
 class Codes(Enum):
-    """Предоставляет справочник кодов ответа вэб-сервера."""
+    """Предоставляет справочник кодов ответа веб-сервера."""
     OK = '200'
     MOVED = '301'
     FORBIDDEN = '403'
@@ -15,7 +15,7 @@ class Codes(Enum):
 
 
 class WebServer:
-    """Возвращает случайно выбранный ответ вэб-сервера с кодом."""
+    """Возвращает случайно выбранный ответ веб-сервера с кодом."""
     def __init__(self):
         self.answers = [
             (f"HTTP/1.1 {Codes.OK.value} OK", 'Payload'),
@@ -30,8 +30,7 @@ class WebServer:
 
 
 class CodeChecker(ABC):
-    """Базовый класс обработчиков, являющийся корневым элементом цепочки обработчиков и предоставляющий методы
-    для прохождения по всем элементам цепочки."""
+    """Базовый класс обработчиков, являющийся корневым элементом цепочки обработчиков и предоставляющий методы для прохождения по всем элементам цепочки."""
     def __init__(self, code: tuple[str, str]):
         self.code = code
         self.next_checker: Optional[CodeChecker] = None
@@ -48,8 +47,7 @@ class CodeChecker(ABC):
 
 
 class CodeOkChecker(CodeChecker):
-    """При наличии кода 200 в ответе вэб-сервера, выводит сообщение и прерывает цепочку команд,
-    иначе передает код следующему обработчику в цепочке."""
+    """При наличии кода 200 в ответе веб-сервера, выводит сообщение и прерывает цепочку команд, иначе передает код следующему обработчику в цепочке."""
     def handle(self):
         if Codes.OK.value in self.code[0]:
             print(f"{self.__class__.__name__} - {Codes.OK.value}")
@@ -58,9 +56,7 @@ class CodeOkChecker(CodeChecker):
 
 
 class CodeMovedPermChecker(CodeChecker):
-    """При наличии кода 301 в ответе вэб-сервера, выводит сообщение и прерывает цепочку команд,
-    иначе передает код следующему обработчику в цепочке."""
-
+    """При наличии кода 301 в ответе веб-сервера, выводит сообщение и прерывает цепочку команд, иначе передает код следующему обработчику в цепочке."""
     def handle(self):
         if Codes.MOVED.value in self.code[0]:
             print(f"{self.__class__.__name__} - {Codes.MOVED.value}")
@@ -69,8 +65,7 @@ class CodeMovedPermChecker(CodeChecker):
 
 
 class CodeForbiddenChecker(CodeChecker):
-    """При наличии кода 403 в ответе вэб-сервера, выводит сообщение и прерывает цепочку команд,
-    иначе передает код следующему обработчику в цепочке."""
+    """При наличии кода 403 в ответе веб-сервера, выводит сообщение и прерывает цепочку команд, иначе передает код следующему обработчику в цепочке."""
     def handle(self):
         if Codes.FORBIDDEN.value in self.code[0]:
             print(f"{self.__class__.__name__} - {Codes.FORBIDDEN.value}")
@@ -79,8 +74,7 @@ class CodeForbiddenChecker(CodeChecker):
 
 
 class CodeNotFoundChecker(CodeChecker):
-    """При наличии кода 404 в ответе вэб-сервера, выводит сообщение и прерывает цепочку команд,
-    иначе передает код следующему обработчику в цепочке."""
+    """При наличии кода 404 в ответе веб-сервера, выводит сообщение и прерывает цепочку команд, иначе передает код следующему обработчику в цепочке."""
     def handle(self):
         if Codes.NOT_FOUND.value in self.code[0]:
             print(f"{self.__class__.__name__} - {Codes.NOT_FOUND.value}")
@@ -89,8 +83,7 @@ class CodeNotFoundChecker(CodeChecker):
 
 
 class CodeBadGatewayChecker(CodeChecker):
-    """При наличии кода 502 ответе вэб-сервера, выводит сообщение и прерывает цепочку команд,
-    иначе передает код следующему обработчику в цепочке."""
+    """При наличии кода 502 ответе веб-сервера, выводит сообщение и прерывает цепочку команд, иначе передает код следующему обработчику в цепочке."""
     def handle(self):
         if Codes.BAD_GATEWAY.value in self.code[0]:
             print(f"{self.__class__.__name__} - {Codes.BAD_GATEWAY.value}")
@@ -111,3 +104,6 @@ cc.handle()
 
 # stdout:
 # CodeForbiddenChecker - 403
+
+
+# ИТОГ: отлично — 6/6
