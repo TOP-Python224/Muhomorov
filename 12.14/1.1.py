@@ -41,10 +41,10 @@ class Adapter:
 
     # ДОБАВИТЬ: аннотации типов параметров для всех методов и возвращаемых значений для не встроенных методов — это особенно важно для структурных классов
 
-    def __init__(self, adapted):
+    def __init__(self, adapted: WordCounter):
         self.adapted = adapted
 
-    def process_text(self, text):
+    def process_text(self, text: str):
         """Вызывает методы счетчика, и передает результат в парсер."""
         self.adapted.__init__(text)
         # ИСПОЛЬЗОВАТЬ: очевидные имена идентификаторов
