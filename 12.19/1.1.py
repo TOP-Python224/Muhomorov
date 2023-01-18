@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Self
 
 import os
 
@@ -25,52 +26,41 @@ class File:
 
 class Folder(list):
     """Каталог в файловой системе. Может содержать вложенные каталоги и файлы."""
-    def __init__(self, folder: str):
+    def __init__(self, name: str, /, *objects: File | Self):
         super().__init__()
-        self.folder = folder
-
+        self.name = name
+        self.extend(objects)
         # УДАЛИТЬ: здесь не нужна привязка к реальной файловой системе
-        for root, dirs, files in os.walk(self.folder):
-            for file in files:
-                self.append(f"{root}{PATH_SEP}{file}")
-
     # КОММЕНТАРИЙ: это задание на шаблон Компоновщик — подумайте в этом контексте
-
     # ДОБАВИТЬ: свой метод и/или переопределение встроенного — для добавления объектов к каталогу
 
     def ls(self) -> str:
-        return '\n'.join(self)
+        return '\n'.join([obj.ls() for obj in self])
 
 
-def ls(*objects: File | Folder, end='\n') -> None:
+def ls(*objects: File | Folder) -> str:
     for obj in objects:
-        print(obj.ls(), end)
+        print(obj.ls())
 
 
-f1 = File('text_1.txt', 'd:\\test_1')
-f2 = File('text_2.txt', 'd:\\test_2')
-d1 = Folder('d:\\test_1')
-d2 = Folder('d:\\test_2')
-ls(f1, f2, d1, d2)
+file1 = File('text_1.txt', 'd:\\test_1')
+file2 = File('text_2.txt', 'd:\\test_1')
+file3 = File('text_3.doc', 'd:\\test_2')
+file4 = File('text_4.doc', 'd:\\test_2')
+file5 = File('text_5.rtf', 'd:\\test_3')
+file6 = File('text_6.rtf', 'd:\\test_3')
 
+d1 = Folder('test_2', file3, file4)
+d2 = Folder('test_3', file5, file6, d1)
+d3 = Folder('test_4', file1, file2, d2)
+ls(d3)
 
 # stdout:
-
-# d:\test_1\text_1.txt
-#
-# d:\test_2\text_2.txt
-#
 # d:\test_1\text_1.txt
 # d:\test_1\text_2.txt
-# d:\test_1\test_1\text_3.txt
-# d:\test_1\test_2\text_4.txt
-# d:\test_1\test_2\test_3\text_5.txt
-#
-# d:\test_2\text_1.txt
-# d:\test_2\text_2.txt
-# d:\test_2\test_1\text_3.txt
-# d:\test_2\test_2\text_4.txt
-# d:\test_2\test_2\test_3\text_5.txt
-
+# d:\test_3\text_5.rtf
+# d:\test_3\text_6.rtf
+# d:\test_2\text_3.doc
+# d:\test_2\text_4.doc
 
 # ИТОГ: выполнить работу над ошибками — 2/6

@@ -166,11 +166,13 @@ class HTMLManager:
 
     def del_tags(self, *tags: str) -> str:
         """Удаляет заданные тег/теги."""
-        return self.parser.delete_tags(*tags).__dict__['html']
+        return self.parser.delete_tags(*tags).html
+        # return self.parser.delete_tags(*tags).__dict__['html']
 
     def del_attrs(self, *attrs: str, del_all: bool = False) -> str:
         """Удаляет заданные атрибут/атрибуты."""
-        return self.parser.delete_attrs(*attrs, all=del_all).__dict__['html']
+        return self.parser.delete_attrs(*attrs, all=del_all).html
+        # return self.parser.delete_attrs(*attrs, all=del_all).__dict__['html']
 
     # КОММЕНТАРИЙ: очень хорошо
     def add_indent(self) -> HTMLTag:
@@ -226,9 +228,9 @@ html2 = "<div><p id='top'>Menu</p><ul><li>File</li><li>Edit</li><li>View</li></u
 # print(h2.__dict__['html'])
 
 print(HTMLManager(html1).squeeze(), end='\n====================\n')
-# print(HTMLManager(html1).del_tags('p', 'li'), end='\n====================\n')
-# print(HTMLManager(html1).del_attrs('id', 'style'), end='\n====================\n')
-# print(HTMLManager(html1).del_attrs(del_all=True))
+print(HTMLManager(html1).del_tags('p', 'li'), end='\n====================\n')
+print(HTMLManager(html1).del_attrs('id', 'style'), end='\n====================\n')
+print(HTMLManager(html1).del_attrs(del_all=True))
 
 t1 = HTMLManager(html2).add_indent()
 print(t1)
