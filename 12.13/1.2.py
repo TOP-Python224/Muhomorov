@@ -8,7 +8,7 @@ class HTMLTag:
     def __init__(self, name: str, value: str = '', **kwargs):
         self.name = name
         # ИСПОЛЬЗОВАТЬ: пример того, как с помощью реорганизации формирования строки избежать лишней проверки
-        self.tag_attrs = ''.join([f' {k}="{v}"' for k, v in kwargs.items()])
+        self.tag_attrs = ''.join([f' {k.replace("class_", "class")}="{v}"' for k, v in kwargs.items()])
         self.value = value
         self.__nested: list[HTMLTag] = []
 
@@ -77,10 +77,11 @@ class HTMLBuilder:
 
 root = HTMLTag.create('div', id='bottom')
 # ДОБАВИТЬ: многие HTML теги используют атрибут class, а в python это слово является зарезервированным — как с помощью строителя создать экземпляр HTMLTag с атрибутом class?
+# Используем class_, заменяем на class в конструкторе HTMLTag.
 root.sibling('p', 'Menu', id='main', section='top')\
     .nested('ul', section='middle')\
     .sibling('li', 'File', style='modern')\
-    .sibling('li', 'Edit')\
+    .sibling('li', 'Edit', class_='new')\
     .sibling('li', 'View')
 div = root.build()
 print(div)
@@ -91,7 +92,7 @@ print(div)
 #   <p id="main" section="top">Menu</p>
 #   <ul section="middle">
 #     <li style="modern">File</li>
-#     <li>Edit</li>
+#     <li class="new">Edit</li>
 #     <li>View</li>
 #   </ul>
 # </div>

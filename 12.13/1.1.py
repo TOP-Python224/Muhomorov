@@ -14,11 +14,11 @@ class ClassBuilder:
 
     def add_field(self,
                   name: str,
-                  value: str = '""') -> Self:
+                  value: any) -> Self:
         """Добавляет поле в шаблон класса и возвращает текущий строитель."""
         self.result = self.result.replace(self.default_plug, self.constructor)
         # ДОБАВИТЬ: строковые литералы должны отображаться в кавычках (см. вывод ниже)
-        self.field = f"{self.indent*2}{name} = {value}\n"
+        self.field = f"{self.indent*2}{name} = {repr(value)}\n"
         self.result += self.field
         return self
 
@@ -27,7 +27,7 @@ class ClassBuilder:
 
 
 mc = ClassBuilder('MyClass')
-mc.add_field('x', '10').add_field('y', 'тестовая строка').add_field('z', '30')
+mc.add_field('x', 10).add_field('y', 'тестовая строка').add_field('z', 30).add_field('end', 7.77)
 print(mc)
 
 
