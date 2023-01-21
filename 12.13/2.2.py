@@ -94,9 +94,9 @@ class Factory(ABC):
 
 
 class FactoryRussianSet(Factory):
-    """Определяет фабрику для набора блюд русской кухни."""
+    """Определяет фабрику для набора блюд русской кухни. Атрибут russian_kitchen определяет набор блюд для фабрики."""
     # ДОБАВИТЬ здесь и далее: этот атрибут будет использоваться в дальнейшем для настройки фабрики, поэтому его необходимо аннотировать и документировать
-    russian_kitchen = [Soup1, Snack1, Drink1]
+    russian_kitchen: list[Soup, Snack, Drink] = [Soup1, Snack1, Drink1]
 
     def create_set(self) -> None:
         """Передает блюда из набора на приготовление."""
@@ -105,8 +105,8 @@ class FactoryRussianSet(Factory):
 
 
 class FactoryJapanSet(Factory):
-    """Определяет фабрику для набора блюд японской кухни."""
-    japan_kitchen = [Soup2, Snack2, Drink2]
+    """Определяет фабрику для набора блюд японской кухни. Атрибут japan_kitchen определяет набор блюд для фабрики"""
+    japan_kitchen: list[Soup, Snack, Drink] = [Soup2, Snack2, Drink2]
 
     def create_set(self) -> None:
         """Передает блюда из набора на приготовление."""
