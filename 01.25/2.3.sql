@@ -86,23 +86,19 @@ group by f.`name`
 					  group by f.`name`);
 
 -- 8. Вывести названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.
-select s.`name` as 'Subject name',
-         concat_ws(' ', t.`name`, t.`surname`) as 'Full name',
-         count('Subject name') as 'Number lectures'
+with s1 as
+(select s.`name` as 'Lecture name', concat_ws(' ', t.`name`, t.`surname`) as 'Full name', count(*) as 'Number lectures'
     from `teachers` as t
     join `lectures` as l
       on t.`id` = l.`teacher_id`
-    join `subjects` as s
+	join `subjects` as s
       on l.`subject_id` = s.`id`
-group by l.`subject_id`, `Full name`
--- Дальше я зашел в тупик, получаю таблицу вида:
--- Subject name     Full name   Number lectures
--- A Malesuada Id	Selma Mills	8
--- A Malesuada Id	Bethany Eaton	10
--- A Malesuada Id	Christopher Fulton	8
--- A Malesuada Id	Harper Butler	5
--- A Malesuada Id	Justin Hawkins	13
---  и т.д., не смог придумать как из нее получить искомое (
+group by `Lecture name`, `Full name`)
+
+select s1.`Lecture name`, s1.`Full name`, s1.`Number lectures`
+from s1
+join (select `Lecture name`, max(`Number lectures`) as 'Max lectures' from s1 group by `Lecture name`) as s2
+  on s1.`Lecture name` = s2.`Lecture name` and s1.`Number lectures` = s2.`Max lectures`
 
 -- 9. Вывести название дисциплины, по которому читается меньше всего лекций.
   select count(l.`id`) as 'Minimum'
